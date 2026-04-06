@@ -1,0 +1,7 @@
+Matrix_column_order,Role_Key,UI_Label,Data_source_in_permissions_data_js
+1,super-admin,Super Admin,Always granted (not per-feature a/b/ro)
+2,admin,Admin,Always granted
+3,responder,Responder,Feature field "b" (yes/no)
+4,help-desk,Help Desk,Feature field "a" (yes/no)
+5,analyst,Security Analyst,Same as "a" in current prototype
+6,read-only,Read-only,Feature field "ro" (yes = allowed for read-only role)

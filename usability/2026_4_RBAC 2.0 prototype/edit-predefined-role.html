@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit pre-defined role</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="session-guard.js"></script>
+</head>
+<body data-role-page="predefined-edit">
+  <header class="app-header" role="banner">
+    <div class="app-header__inner">
+      <a href="index.html" class="logo" aria-label="Sophos home">
+        <img class="logo__img" src="assets/sophos-logo.png" alt="Sophos" decoding="async" />
+      </a>
+      <nav class="app-nav" aria-label="Primary">
+        <button type="button" class="nav-item nav-item--dropdown">Dashboards</button>
+        <button type="button" class="nav-item nav-item--dropdown">My Products</button>
+        <button type="button" class="nav-item nav-item--dropdown">XDR</button>
+        <span class="nav-item">Alerts</span>
+        <span class="nav-item">Reports</span>
+        <button type="button" class="nav-item nav-item--dropdown">People</button>
+        <button type="button" class="nav-item nav-item--dropdown">Devices</button>
+      </nav>
+      <div class="app-header__tools">
+        <button type="button" class="icon-btn" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.26.604.852.997 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--notify" aria-label="Notifications, 3 unread">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge">3</span>
+        </button>
+        <button type="button" class="icon-btn" aria-label="Help">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--profile" aria-label="Profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" role="main">
+    <div class="page__title-bar">
+      <div class="page__title-bar-inner">
+        <h1 class="page-title" id="role-page-title">Pre-defined role</h1>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="#">Overview</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <a href="#">Global settings</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <a href="index.html">Manage roles and administrators</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <span class="breadcrumbs__current" aria-current="page">Role details</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="page__action-bar" aria-label="Form actions">
+      <div class="page__action-bar-inner page__action-bar-inner--edit">
+        <button type="button" class="btn-action-cancel" id="edit-role-clone">Clone</button>
+        <span class="page__action-bar-divider" aria-hidden="true"></span>
+        <a class="btn-action-cancel" href="index.html">Cancel</a>
+        <button type="button" class="btn-primary" id="add-role-save">Save</button>
+      </div>
+    </div>
+
+    <div class="page__after-title">
+      <div class="page__inner page__inner--add-role">
+        <div class="add-role-form">
+          <div class="add-role-form__grid">
+            <div class="add-role-form__left">
+              <div class="add-role-field">
+                <label for="role-name">Name <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="role-name" name="role-name" autocomplete="off" disabled class="add-role-field__control--disabled" />
+              </div>
+              <dl class="add-role-readonly">
+                <dt>Role type</dt>
+                <dd>
+                  <span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span>
+                </dd>
+              </dl>
+            </div>
+            <div class="add-role-field add-role-field--desc">
+              <span class="add-role-field__counter" id="role-desc-count">0/250</span>
+              <label for="role-description">Description</label>
+              <textarea id="role-description" name="role-description" rows="4" disabled class="add-role-field__control--disabled"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Edit pre-defined role">
+          <button type="button" class="tab tab--active" role="tab" aria-selected="true">Permissions</button>
+          <button type="button" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge" id="tab-admin-badge">0</span></button>
+        </div>
+
+        <div class="panel">
+          <div class="perm-table-wrap">
+            <table class="perm-table" id="perm-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="perm-th-feature">Products and features</th>
+                  <th scope="col" class="perm-th-perm perm-th-perm--rule">
+                    <span class="th-label-inline th-label-inline--perm">
+                      Permission
+                      <svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
+                    </span>
+                  </th>
+                  <th scope="colgroup" colspan="2" class="perm-th-compare">
+                    <div class="perm-compare-head">
+                      <span class="perm-compare-head__label">Compare with</span>
+                      <div class="perm-compare-head__dds" id="cmp-dd-mounts"></div>
+                    </div>
+                  </th>
+                  <th scope="col" class="perm-th-tail" aria-hidden="true"></th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="permissions-data.js"></script>
+  <script src="add-role.js"></script>
+  <script src="auth-config.js"></script>
+  <script src="profile-menu.js"></script>
+</body>
+</html>

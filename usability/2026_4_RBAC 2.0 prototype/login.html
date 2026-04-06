@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-config.js"></script>
+  <script src="auth-login.js"></script>
+  <script>
+    try {
+      if (sessionStorage.getItem("sophosProtoAuth") === "1") {
+        window.location.replace("index.html");
+      }
+    } catch (e) {}
+  </script>
+</head>
+<body class="login-page">
+  <main class="login-panel" role="main">
+    <h1 class="login-panel__title">Usability testing</h1>
+    <form class="login-form" id="login-form" action="#" method="get" novalidate>
+      <label class="login-field">
+        <span class="login-field__label">Username</span>
+        <input
+          type="text"
+          class="login-field__input"
+          id="login-username"
+          name="username"
+          autocomplete="username"
+        />
+      </label>
+      <label class="login-field">
+        <span class="login-field__label">Password</span>
+        <input
+          type="password"
+          class="login-field__input"
+          id="login-password"
+          name="password"
+          autocomplete="current-password"
+        />
+      </label>
+      <p class="login-error" id="login-error" role="alert" hidden></p>
+      <button type="submit" class="login-submit">Enter</button>
+    </form>
+    <p class="login-footer">RBAC v1.0</p>
+  </main>
+  <script>
+    (function () {
+      var form = document.getElementById("login-form");
+      var errEl = document.getElementById("login-error");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (errEl) {
+          errEl.hidden = true;
+          errEl.textContent = "";
+        }
+        var user = document.getElementById("login-username");
+        var pass = document.getElementById("login-password");
+        var u = user ? user.value : "";
+        var p = pass ? pass.value : "";
+        var validate =
+          typeof window.sophosProtoValidateLogin === "function"
+            ? window.sophosProtoValidateLogin
+            : null;
+        var apply =
+          typeof window.sophosProtoApplySessionFromLogin === "function"
+            ? window.sophosProtoApplySessionFromLogin
+            : null;
+        if (!validate || !apply) {
+          if (errEl) {
+            errEl.textContent = "Sign-in configuration failed to load.";
+            errEl.hidden = false;
+          }
+          return;
+        }
+        var result = validate(u, p);
+        if (!result.ok) {
+          if (errEl) {
+            errEl.textContent = result.message || "Sign in failed.";
+            errEl.hidden = false;
+          }
+          return;
+        }
+        apply(result);
+        window.location.href = "index.html";
+      });
+    })();
+  </script>
+</body>
+</html>

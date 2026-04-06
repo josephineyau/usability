@@ -1,0 +1,3 @@
+Link_Group_ID,Parent_Group_ID,Subsection_Feature_ID,Subsection_Display_Name,Member_Feature_IDs,Member_Display_Names,Notes
+alert_notifications_tree,general,general:7,Alert notifications,"general:9,general:10","Take action on alerts | Read alerts","Linked tree (treeChild in code). Dependency edges are in permissions_feature_links.csv. Sub-item ""Configure alert recipients"" (general:8) is a label row under this subsection but is not part of this two-feature linked pair."
+reporting_tree,general,general:11,Reporting,"general:12,general:13,general:14","Create and delete reports | Update reports | Read reports","Linked tree (treeChild in code). Suggested dependency edges (create/update → read) are in permissions_feature_links.csv rows for general:12 and general:13."

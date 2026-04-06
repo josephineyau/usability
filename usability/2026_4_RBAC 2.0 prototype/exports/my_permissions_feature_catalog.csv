@@ -1,0 +1,48 @@
+Parent_Group_ID,Parent_Group_Name,Sort_Order,Row_Kind,Feature_ID,Display_Name,Super_Admin,Admin,Responder,Help_Desk,Security_Analyst,Read_only
+general,General permissions,1,STANDALONE_FEATURE,general:0,View organization summary,yes,yes,yes,yes,yes,yes
+general,General permissions,2,STANDALONE_FEATURE,general:1,Manage account settings,yes,yes,no,yes,yes,no
+general,General permissions,3,STANDALONE_FEATURE,general:2,Manage administrators,yes,yes,yes,yes,yes,no
+general,General permissions,4,STANDALONE_FEATURE,general:3,Manage roles and permissions,yes,yes,no,yes,yes,no
+general,General permissions,5,STANDALONE_FEATURE,general:4,View audit log,yes,yes,yes,yes,yes,yes
+general,General permissions,6,STANDALONE_FEATURE,general:5,Manage licenses,yes,yes,yes,yes,yes,no
+general,General permissions,7,STANDALONE_FEATURE,general:6,Manage API credentials,yes,yes,no,yes,yes,no
+general,General permissions,8,SUBCATEGORY,general:7,Alert notifications,yes,yes,yes,yes,yes,no
+general,General permissions,9,SUBITEM_LABEL,general:8,Configure alert recipients,yes,yes,no,yes,yes,yes
+general,General permissions,10,LINKED_FEATURE,general:9,Take action on alerts,yes,yes,yes,yes,yes,no
+general,General permissions,11,LINKED_FEATURE,general:10,Read alerts,yes,yes,yes,yes,yes,yes
+general,General permissions,12,SUBCATEGORY,general:11,Reporting,yes,yes,no,yes,yes,no
+general,General permissions,13,LINKED_FEATURE,general:12,Create and delete reports,yes,yes,yes,yes,yes,no
+general,General permissions,14,LINKED_FEATURE,general:13,Update reports,yes,yes,yes,yes,yes,no
+general,General permissions,15,LINKED_FEATURE,general:14,Read reports,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,1,STANDALONE_FEATURE,endpoint:0,Real-time scanning,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,2,STANDALONE_FEATURE,endpoint:1,Threat cases,yes,yes,yes,no,no,no
+endpoint,Endpoint Protection,3,STANDALONE_FEATURE,endpoint:2,Manage ABC,yes,yes,yes,no,no,no
+endpoint,Endpoint Protection,4,LINKED_FEATURE,endpoint:3,Edit ABC,yes,yes,yes,no,no,no
+endpoint,Endpoint Protection,5,LINKED_FEATURE,endpoint:4,Add ABC,yes,yes,yes,no,yes,no
+endpoint,Endpoint Protection,6,LINKED_FEATURE,endpoint:5,Delete ABC,yes,yes,yes,no,no,no
+endpoint,Endpoint Protection,7,LINKED_FEATURE,endpoint:6,Read ABC,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,8,STANDALONE_FEATURE,endpoint:7,Turn on/off Tamper protection,yes,yes,yes,no,yes,no
+server,Server Protection,1,STANDALONE_FEATURE,server:0,Server policies,yes,yes,no,yes,yes,yes
+server,Server Protection,2,STANDALONE_FEATURE,server:1,Server reports,yes,yes,yes,yes,yes,no
+mobile,Mobile,1,STANDALONE_FEATURE,mobile:0,Mobile enrollment,yes,yes,yes,no,no,yes
+mobile,Mobile,2,STANDALONE_FEATURE,mobile:1,Mobile compliance,yes,yes,no,yes,yes,no
+encryption,Encryption,1,STANDALONE_FEATURE,encryption:0,Device encryption,yes,yes,yes,yes,yes,yes
+encryption,Encryption,2,STANDALONE_FEATURE,encryption:1,Recovery keys,yes,yes,no,no,no,no
+email,Email Security,1,STANDALONE_FEATURE,email:0,Message quarantine,yes,yes,yes,yes,yes,yes
+email,Email Security,2,STANDALONE_FEATURE,email:1,Policy rules,yes,yes,no,yes,yes,no
+phish,Phish Threat,1,STANDALONE_FEATURE,phish:0,Simulation campaigns,yes,yes,yes,no,no,yes
+phish,Phish Threat,2,STANDALONE_FEATURE,phish:1,Training assignments,yes,yes,yes,yes,yes,no
+wireless,Wireless,1,STANDALONE_FEATURE,wireless:0,Access points,yes,yes,no,yes,yes,yes
+wireless,Wireless,2,STANDALONE_FEATURE,wireless:1,SSID management,yes,yes,yes,yes,yes,no
+firewall,Firewall,1,STANDALONE_FEATURE,firewall:0,Firewall rules,yes,yes,yes,yes,yes,yes
+firewall,Firewall,2,STANDALONE_FEATURE,firewall:1,VPN settings,yes,yes,yes,no,no,no
+cloud,Cloud Optix,1,STANDALONE_FEATURE,cloud:0,Cloud inventory,yes,yes,no,yes,yes,yes
+cloud,Cloud Optix,2,STANDALONE_FEATURE,cloud:1,Misconfiguration alerts,yes,yes,yes,yes,yes,no
+ztn,Zero Trust Network,1,STANDALONE_FEATURE,ztn:0,ZTNA policies,yes,yes,yes,no,no,yes
+ztn,Zero Trust Network,2,STANDALONE_FEATURE,ztn:1,Access logs,yes,yes,yes,yes,yes,no
+switches,Switches,1,STANDALONE_FEATURE,switches:0,Switch configuration,yes,yes,yes,yes,yes,yes
+switches,Switches,2,STANDALONE_FEATURE,switches:1,Port management,yes,yes,no,yes,yes,no
+dns,DNS Protection,1,STANDALONE_FEATURE,dns:0,DNS policies,yes,yes,yes,yes,yes,yes
+dns,DNS Protection,2,STANDALONE_FEATURE,dns:1,Blocked domains,yes,yes,yes,no,no,no
+risk,Managed Risk,1,STANDALONE_FEATURE,risk:0,Risk assessments,yes,yes,no,yes,yes,yes
+risk,Managed Risk,2,STANDALONE_FEATURE,risk:1,Remediation tasks,yes,yes,yes,yes,yes,no

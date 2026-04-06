@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage roles and administrators</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="session-guard.js"></script>
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <div class="app-header__inner">
+      <a href="#" class="logo" aria-label="Sophos home">
+        <img class="logo__img" src="assets/sophos-logo.png" alt="Sophos" decoding="async" />
+      </a>
+      <nav class="app-nav" aria-label="Primary">
+        <button type="button" class="nav-item nav-item--dropdown">Dashboards</button>
+        <button type="button" class="nav-item nav-item--dropdown">My Products</button>
+        <button type="button" class="nav-item nav-item--dropdown">XDR</button>
+        <span class="nav-item">Alerts</span>
+        <span class="nav-item">Reports</span>
+        <button type="button" class="nav-item nav-item--dropdown">People</button>
+        <button type="button" class="nav-item nav-item--dropdown">Devices</button>
+      </nav>
+      <div class="app-header__tools">
+        <button type="button" class="icon-btn" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.26.604.852.997 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--notify" aria-label="Notifications, 3 unread">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge">3</span>
+        </button>
+        <button type="button" class="icon-btn" aria-label="Help">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--profile" aria-label="Profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" role="main">
+    <div class="page__title-bar">
+      <div class="page__title-bar-inner">
+        <h1 class="page-title">Manage roles and administrators</h1>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="#">Overview</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <a href="#">Global settings</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <span class="breadcrumbs__current" aria-current="page">Roles</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="page__after-title">
+      <div class="page__inner">
+        <div class="tabs" role="tablist" aria-label="Manage roles">
+          <button type="button" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge">6</span></button>
+          <button type="button" class="tab tab--active" role="tab" aria-selected="true">Roles</button>
+          <a href="permissions-matrix.html" class="tab" role="tab" aria-selected="false">Permissions matrix</a>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <div class="toolbar__left">
+              <button type="button" class="btn-primary" id="add-role-open">Add role</button>
+            </div>
+            <div class="toolbar__right">
+              <label class="search-field">
+                <span class="visually-hidden">Search roles</span>
+                <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+                <input type="search" id="role-search" placeholder="Search" autocomplete="off" />
+              </label>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="roles-table" id="roles-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="th-sort" data-sort="name">
+                    <span class="th-sort__label">Name</span>
+                    <span class="sort-arrows" aria-hidden="true"><span class="sort-arrows__up"></span><span class="sort-arrows__down"></span></span>
+                  </th>
+                  <th scope="col" class="th-sort th-num" data-sort="admins">
+                    <span class="th-sort__label"># Admins</span>
+                    <span class="sort-arrows" aria-hidden="true"><span class="sort-arrows__up"></span><span class="sort-arrows__down"></span></span>
+                  </th>
+                  <th scope="col">Type</th>
+                  <th scope="col">
+                    <span class="th-sort__label">Description</span>
+                    <svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
+                  </th>
+                  <th scope="col" class="th-actions"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="roles-tbody">
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Super%20Admin" class="role-link" title="Super Admin">Super Admin</a></td>
+                  <td class="td-num">1</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Super Admin role is a pre-defined role that has access to everything in Sophos Central.">The Super Admin role is a pre-defined role that has access to everything in Sophos Central.</td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Super Admin" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Admin" class="role-link" title="Admin">Admin</a></td>
+                  <td class="td-num">3</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Admin role is a pre-defined role that has access to almost everything like the Super Admin except the ability to manage roles and role assignments.">The Admin role is a pre-defined role that has access to almost everything like the Super Admin except the ability to manage roles and role assignments.</td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Admin" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Responder" class="role-link" title="Responder">Responder</a></td>
+                  <td class="td-num">2</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Partner Responder role allows the admin to remedy threats from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.">The Partner Responder role allows the admin to remedy threats from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.</td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Responder" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Help%20Desk" class="role-link" title="Help Desk">Help Desk</a></td>
+                  <td class="td-num">4</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Help Desk role is a pre-defined role that allows the admin to take certain administrative actions.">The Help Desk role is a pre-defined role that allows the admin to take certain administrative actions. <a href="#" class="more-info">More Info</a></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Help Desk" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Security%20Analyst" class="role-link" title="Security Analyst">Security Analyst</a></td>
+                  <td class="td-num">2</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Partner Analyst role allows the admin to analyze security incidents from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.">The Partner Analyst role allows the admin to analyze security incidents from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.</td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Security Analyst" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr data-role-type="predefined">
+                  <td><a href="edit-predefined-role.html?role=Read-only" class="role-link" title="Read-only">Read-only</a></td>
+                  <td class="td-num">0</td>
+                  <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
+                  <td class="td-desc" title="The Read-only role is a pre-defined role that has read-only access to everything in Sophos Central.">The Read-only role is a pre-defined role that has read-only access to everything in Sophos Central.</td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Read-only" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="role-menu" id="role-menu" role="menu" hidden aria-hidden="true"></div>
+  <div id="toast-host" class="toast-host" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="delete-role-modal-backdrop" hidden></div>
+  <div class="modal" id="delete-role-modal" role="dialog" aria-modal="true" aria-labelledby="delete-role-modal-title" hidden>
+    <div class="modal__panel modal__panel--confirm">
+      <div class="modal__head">
+        <h2 class="modal__title" id="delete-role-modal-title">Delete role</h2>
+        <button type="button" class="modal__close" id="delete-role-modal-x" aria-label="Close">×</button>
+      </div>
+      <p class="modal__confirm-body" id="delete-role-modal-body"></p>
+      <div class="modal__actions modal__actions--confirm">
+        <button type="button" class="btn-modal-cancel" id="delete-role-modal-cancel">Cancel</button>
+        <button type="button" class="btn-primary" id="delete-role-modal-submit">Delete role</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="add-role-modal-backdrop" hidden></div>
+  <div class="modal" id="add-role-modal" role="dialog" aria-modal="true" aria-labelledby="add-role-modal-title" hidden>
+    <div class="modal__panel modal__panel--add-role">
+      <div class="modal__head">
+        <h2 class="modal__title" id="add-role-modal-title">Add role</h2>
+        <button type="button" class="modal__close" id="add-role-modal-x" aria-label="Close">×</button>
+      </div>
+      <p class="modal__sub">Select a method</p>
+      <div class="modal__options">
+        <label class="modal-option modal-option--radio">
+          <input type="radio" name="add-role-method" value="custom" class="modal-option__input" checked />
+          <span class="modal-option__radio" aria-hidden="true"></span>
+          <span class="modal-option__body">
+            <span class="modal-option__name">Custom</span>
+            <span class="modal-option__desc">Customize every feature Central offers.</span>
+          </span>
+        </label>
+        <div class="modal-option-wrap">
+          <label class="modal-option modal-option--radio">
+            <input type="radio" name="add-role-method" value="clone" class="modal-option__input" />
+            <span class="modal-option__radio" aria-hidden="true"></span>
+            <span class="modal-option__body">
+              <span class="modal-option__name">Clone</span>
+              <span class="modal-option__desc">Clone from an existing role.</span>
+            </span>
+          </label>
+          <div class="modal__clone-role" id="add-role-modal-clone-field" hidden>
+            <label class="modal__clone-role-label" id="add-role-modal-clone-label">
+              Role <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="cmp-dd cmp-dd--modal-clone" id="add-role-modal-clone-dd" data-modal-clone-dd>
+              <div class="cmp-dd__shell">
+                <button
+                  type="button"
+                  class="cmp-dd__primary"
+                  id="add-role-modal-clone-primary"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                >
+                  <span class="cmp-dd__label cmp-dd__label--placeholder">Select</span>
+                </button>
+                <button type="button" class="cmp-dd__clear" aria-label="Clear selection" hidden>
+                  <span class="cmp-dd__clear-icon" aria-hidden="true">×</span>
+                </button>
+                <button type="button" class="cmp-dd__chev-btn" aria-label="Open menu" aria-expanded="false">
+                  <span class="cmp-dd__chev" aria-hidden="true">▼</span>
+                </button>
+              </div>
+              <div class="cmp-dd__menu" role="listbox" hidden></div>
+            </div>
+            <p class="modal__clone-role-error" id="add-role-modal-clone-error" hidden role="alert"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn-secondary-light" id="add-role-modal-cancel">Cancel</button>
+        <button type="button" class="btn-primary" id="add-role-modal-next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="custom-roles-sync.js"></script>
+  <script src="prototype.js"></script>
+  <script src="auth-config.js"></script>
+  <script src="profile-menu.js"></script>
+</body>
+</html>

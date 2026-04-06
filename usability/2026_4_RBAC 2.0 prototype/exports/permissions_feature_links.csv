@@ -1,0 +1,4 @@
+Trigger_Feature_ID,Also_Grant_Feature_IDs,Rule_Notes
+general:9,general:10,"Alert notifications — linked pair: granting ""Take action on alerts"" also grants ""Read alerts"" (dependent checkbox locked on). Granting only ""Read alerts"" does not auto-grant ""Take action on alerts""."
+general:12,general:14,"Reporting — suggested same pattern as Alert: granting ""Create and delete reports"" also grants ""Read reports"" (locked). Confirm with product."
+general:13,general:14,"Reporting — suggested: granting ""Update reports"" also grants ""Read reports"" (locked). Confirm with product."
