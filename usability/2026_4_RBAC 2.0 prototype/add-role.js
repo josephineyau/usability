@@ -17,6 +17,7 @@
   var featureByRef = _SP.featureByRef;
   var compareAllowed = _SP.compareAllowed;
   var annotateTreePositions = _SP.annotateTreePositions;
+  var featureAllowedFromSavedGroupState = _SP.featureAllowedFromSavedGroupState;
 
   var LS_CUSTOM_NAMES = "sophosProtoCustomRoleNames";
   var LS_ROLE_DATA = "sophosProtoCustomRoleData";
@@ -114,15 +115,6 @@
       long:
         "The Read-only role is a pre-defined role that has read-only access to everything in Sophos Central.",
     },
-  };
-
-  var PREDEFINED_ADMIN_TAB = {
-    "Super Admin": "1",
-    Admin: "3",
-    Responder: "2",
-    "Help Desk": "4",
-    "Security Analyst": "2",
-    "Read-only": "0",
   };
 
   var PAGE_KIND = document.body.getAttribute("data-role-page") || "add";
@@ -812,7 +804,7 @@
         if (tr.getAttribute("data-subsection") === "true") return;
         var ref = tr.getAttribute("data-feature-ref");
         var f = featureByRef(ref);
-        var v = compareAllowed(spec, f);
+        var v = compareCellValue(spec, f, ref);
         if (v === "yes") yes += 1;
         else if (v === "no") no += 1;
       });
@@ -848,7 +840,7 @@
         td.innerHTML = '<span class="perm-compare-inner perm-compare-inner--empty"></span>';
         return;
       }
-      var v = compareAllowed(spec, f);
+      var v = compareCellValue(spec, f, ref);
       if (v === "yes") {
         td.innerHTML =
           '<span class="perm-compare-inner perm-compare--yes" title="Feature is selected">✓</span>';
@@ -902,6 +894,7 @@
   }
 
   function mountCompareDropdowns() {
+    if (PREDEFINED_EDIT_KEY) return;
     var mounts = document.getElementById("cmp-dd-mounts");
     if (!mounts) return;
     mounts.innerHTML = [0, 1]
@@ -994,9 +987,7 @@
 
     var d0 = mounts.querySelector('.cmp-dd[data-cmp-col="0"]');
     var d1 = mounts.querySelector('.cmp-dd[data-cmp-col="1"]');
-    if (PREDEFINED_EDIT_KEY) {
-      /* no default compare selections */
-    } else if (CLONE_SOURCE_NAME) {
+    if (CLONE_SOURCE_NAME) {
       var sl = getCompareSpecAndLabelForClone(CLONE_SOURCE_NAME);
       if (d0) {
         cmpDdSetSelection(d0, sl.spec, sl.label);
@@ -1104,6 +1095,25 @@
 
   function getRoleDataForName(name) {
     return getRoleDataMap()[name] || null;
+  }
+
+  /**
+   * Compare column value for a feature row: predefined roles use compareAllowed;
+   * custom roles use saved permissions (same rules as permissions matrix / edit role).
+   */
+  function compareCellValue(spec, f, ref) {
+    if (!spec || !f || !ref) return null;
+    if (spec.type === "custom") {
+      var rec = getRoleDataForName(spec.name);
+      if (!rec || !rec.permissions || !rec.permissions.groups) return null;
+      var gi = ref.indexOf(":");
+      if (gi < 0) return null;
+      var gid = ref.slice(0, gi);
+      var gstate = rec.permissions.groups[gid];
+      if (!gstate || !gstate.v) return "no";
+      return featureAllowedFromSavedGroupState(gstate, ref, f) ? "yes" : "no";
+    }
+    return compareAllowed(spec, f);
   }
 
   var DEFAULT_ROLE_DESCRIPTION = "Custom role for your organization.";
@@ -1305,13 +1315,217 @@
     var titlePre = document.getElementById("role-page-title");
     if (titlePre) titlePre.textContent = ORIGINAL_ROLE_NAME;
     document.title = ORIGINAL_ROLE_NAME + " – Edit pre-defined role";
-    var tabBadge = document.getElementById("tab-admin-badge");
-    if (tabBadge && PREDEFINED_ADMIN_TAB[ORIGINAL_ROLE_NAME]) {
-      tabBadge.textContent = PREDEFINED_ADMIN_TAB[ORIGINAL_ROLE_NAME];
-    }
   }
 
   initDescriptionCounter();
+
+  function initRoleAdminsTabPanel() {
+    var permPanel = document.getElementById("role-panel-permissions");
+    var admPanel = document.getElementById("role-panel-administrators");
+    var permTab = document.getElementById("role-tab-permissions");
+    var admTab = document.getElementById("role-tab-administrators");
+    var availableTbody = document.getElementById("assign-available-tbody");
+    var selectedTbody = document.getElementById("assign-selected-tbody");
+    var countAvailableEl = document.getElementById("assign-available-count");
+    var countSelectedEl = document.getElementById("assign-selected-count");
+    var badge = document.getElementById("tab-admin-badge");
+    var btnRight = document.getElementById("assign-move-right");
+    var btnLeft = document.getElementById("assign-move-left");
+    var searchAvail = document.getElementById("assign-available-search");
+    var searchSel = document.getElementById("assign-selected-search");
+    var availablePager = document.getElementById("assign-available-pager");
+
+    if (!permPanel || !admPanel || !permTab || !admTab) return;
+    if (!availableTbody || !selectedTbody) return;
+
+    /** Hide pager when all rows fit on one page (prototype; Available list only). */
+    var ASSIGN_PAGE_SIZE = 10;
+
+    var orgTotal =
+      typeof window.sophosProtoOrgAdminTotal === "number"
+        ? window.sophosProtoOrgAdminTotal
+        : Array.isArray(window.sophosProtoRoleAdmins)
+          ? window.sophosProtoRoleAdmins.length
+          : 6;
+
+    var roleNameForList = null;
+    if (PAGE_KIND === "edit" || PAGE_KIND === "predefined-edit") {
+      roleNameForList = ORIGINAL_ROLE_NAME;
+    } else if (PAGE_KIND === "add" && CLONE_SOURCE_NAME) {
+      roleNameForList = CLONE_SOURCE_NAME;
+    }
+
+    function sortEntries(arr) {
+      return arr.slice().sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    function updateAvailableCountLabel() {
+      if (!countAvailableEl) return;
+      var n = availableTbody.querySelectorAll(".assign-selector__checkbox:checked")
+        .length;
+      countAvailableEl.textContent = n + " of " + orgTotal;
+    }
+
+    function updateSelectedCounts() {
+      var n = selectedTbody.querySelectorAll("tr").length;
+      if (countSelectedEl) countSelectedEl.textContent = String(n);
+      if (badge) badge.textContent = String(n);
+    }
+
+    function updateAvailablePagerVisibility() {
+      if (!availablePager) return;
+      var n = availableTbody.querySelectorAll("tr[data-admin-name]").length;
+      availablePager.hidden = n <= ASSIGN_PAGE_SIZE;
+    }
+
+    function createAssignRow(entry) {
+      var tr = document.createElement("tr");
+      tr.dataset.adminName = entry.name;
+      var tdCheck = document.createElement("td");
+      tdCheck.className = "assign-selector__td-check";
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.className = "assign-selector__checkbox";
+      cb.setAttribute("aria-label", "Select " + entry.name);
+      tdCheck.appendChild(cb);
+      var tdName = document.createElement("td");
+      tdName.textContent = entry.name;
+      var tdRole = document.createElement("td");
+      var cr = entry.currentRole;
+      tdRole.textContent = cr || "";
+      if (!cr) tdRole.className = "assign-selector__td-role--empty";
+      tr.appendChild(tdCheck);
+      tr.appendChild(tdName);
+      tr.appendChild(tdRole);
+      return tr;
+    }
+
+    function sortTbodyByName(tbody) {
+      var rows = Array.prototype.slice
+        .call(tbody.querySelectorAll("tr"))
+        .filter(function (r) {
+          return r.dataset.adminName;
+        });
+      rows.sort(function (a, b) {
+        return (a.dataset.adminName || "").localeCompare(
+          b.dataset.adminName || ""
+        );
+      });
+      rows.forEach(function (r) {
+        tbody.appendChild(r);
+      });
+    }
+
+    function applySearch(tbody, query) {
+      var q = String(query || "")
+        .trim()
+        .toLowerCase();
+      tbody.querySelectorAll("tr").forEach(function (tr) {
+        if (!tr.dataset.adminName) return;
+        var name = (tr.dataset.adminName || "").toLowerCase();
+        var roleCell = tr.cells[2];
+        var roleText = roleCell ? roleCell.textContent.toLowerCase() : "";
+        var match = !q || name.indexOf(q) !== -1 || roleText.indexOf(q) !== -1;
+        tr.classList.toggle("assign-selector__row--hidden", !match);
+      });
+    }
+
+    var availFn = window.getAvailableAdministratorsForRole;
+    var selFn = window.getSelectedAdministratorsForRole;
+    var availableData =
+      typeof availFn === "function" ? sortEntries(availFn(roleNameForList)) : [];
+    var selectedData =
+      typeof selFn === "function" ? sortEntries(selFn(roleNameForList)) : [];
+
+    availableTbody.innerHTML = "";
+    selectedTbody.innerHTML = "";
+    availableData.forEach(function (e) {
+      availableTbody.appendChild(createAssignRow(e));
+    });
+    selectedData.forEach(function (e) {
+      selectedTbody.appendChild(createAssignRow(e));
+    });
+
+    updateAvailableCountLabel();
+    updateSelectedCounts();
+    updateAvailablePagerVisibility();
+
+    admPanel.addEventListener("change", function (e) {
+      var t = e.target;
+      if (!t || !t.classList.contains("assign-selector__checkbox")) return;
+      var tr = t.closest("tr");
+      if (!tr) return;
+      tr.classList.toggle("assign-selector__row--selected", t.checked);
+      var tb = tr.closest("tbody");
+      if (tb === availableTbody) updateAvailableCountLabel();
+    });
+
+    function moveChecked(fromTbody, toTbody) {
+      var cbs = fromTbody.querySelectorAll(".assign-selector__checkbox:checked");
+      var trs = Array.prototype.map.call(cbs, function (cb) {
+        return cb.closest("tr");
+      }).filter(Boolean);
+      trs.forEach(function (tr) {
+        var cb = tr.querySelector(".assign-selector__checkbox");
+        if (cb) {
+          cb.checked = false;
+        }
+        tr.classList.remove("assign-selector__row--selected");
+        tr.classList.remove("assign-selector__row--hidden");
+        toTbody.appendChild(tr);
+      });
+      sortTbodyByName(toTbody);
+      updateAvailableCountLabel();
+      updateSelectedCounts();
+      updateAvailablePagerVisibility();
+      if (searchAvail) applySearch(availableTbody, searchAvail.value);
+      if (searchSel) applySearch(selectedTbody, searchSel.value);
+    }
+
+    if (btnRight) {
+      btnRight.addEventListener("click", function () {
+        moveChecked(availableTbody, selectedTbody);
+      });
+    }
+    if (btnLeft) {
+      btnLeft.addEventListener("click", function () {
+        moveChecked(selectedTbody, availableTbody);
+      });
+    }
+    if (searchAvail) {
+      searchAvail.addEventListener("input", function () {
+        applySearch(availableTbody, searchAvail.value);
+      });
+    }
+    if (searchSel) {
+      searchSel.addEventListener("input", function () {
+        applySearch(selectedTbody, searchSel.value);
+      });
+    }
+
+    function showPermissions() {
+      permPanel.hidden = false;
+      admPanel.hidden = true;
+      permTab.classList.add("tab--active");
+      permTab.setAttribute("aria-selected", "true");
+      admTab.classList.remove("tab--active");
+      admTab.setAttribute("aria-selected", "false");
+    }
+    function showAdministrators() {
+      permPanel.hidden = true;
+      admPanel.hidden = false;
+      admTab.classList.add("tab--active");
+      admTab.setAttribute("aria-selected", "true");
+      permTab.classList.remove("tab--active");
+      permTab.setAttribute("aria-selected", "false");
+    }
+    permTab.addEventListener("click", showPermissions);
+    admTab.addEventListener("click", showAdministrators);
+  }
+
+  initRoleAdminsTabPanel();
 
   if (nameInput && PAGE_KIND === "add") {
     window.setTimeout(function () {

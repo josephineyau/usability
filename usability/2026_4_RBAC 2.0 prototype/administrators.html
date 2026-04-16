@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrators – Manage roles and administrators</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="session-guard.js"></script>
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <div class="app-header__inner">
+      <a href="#" class="logo" aria-label="Sophos home">
+        <img class="logo__img" src="assets/sophos-logo.png" alt="Sophos" decoding="async" />
+      </a>
+      <nav class="app-nav" aria-label="Primary">
+        <button type="button" class="nav-item nav-item--dropdown">Dashboards</button>
+        <button type="button" class="nav-item nav-item--dropdown">My Products</button>
+        <button type="button" class="nav-item nav-item--dropdown">XDR</button>
+        <span class="nav-item">Alerts</span>
+        <span class="nav-item">Reports</span>
+        <button type="button" class="nav-item nav-item--dropdown">People</button>
+        <button type="button" class="nav-item nav-item--dropdown">Devices</button>
+      </nav>
+      <div class="app-header__tools">
+        <button type="button" class="icon-btn" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.26.604.852.997 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--notify" aria-label="Notifications, 3 unread">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge">3</span>
+        </button>
+        <button type="button" class="icon-btn" aria-label="Help">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </button>
+        <button type="button" class="icon-btn icon-btn--profile" aria-label="Profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page page--administrators" role="main">
+    <div class="page__title-bar">
+      <div class="page__title-bar-inner">
+        <h1 class="page-title">Manage roles and administrators</h1>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="#">Overview</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <a href="#">Global settings</a>
+          <span class="breadcrumbs__sep">&gt;</span>
+          <span class="breadcrumbs__current" aria-current="page">Roles</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="page__after-title">
+      <div class="page__inner">
+        <div class="tabs" role="tablist" aria-label="Manage roles">
+          <span class="tab tab--active" role="tab" aria-selected="true">Administrators <span class="tab__badge">6</span></span>
+          <a href="index.html" class="tab" role="tab" aria-selected="false">Roles</a>
+          <a href="permissions-matrix.html" class="tab" role="tab" aria-selected="false">Permissions matrix</a>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <div class="toolbar__left">
+              <button type="button" class="btn-primary">Add administrator</button>
+            </div>
+            <div class="toolbar__right">
+              <label class="search-field">
+                <span class="visually-hidden">Search administrators</span>
+                <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+                <input type="search" id="admin-search" placeholder="Search" autocomplete="off" />
+              </label>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="roles-table administrators-table">
+              <colgroup>
+                <col />
+                <col />
+                <col />
+                <col class="administrators-table__mid-col" />
+                <col />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Role</th>
+                  <th scope="col" class="administrators-table__mid-spacer"><span class="visually-hidden">Empty column</span></th>
+                  <th scope="col" class="th-actions"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#" class="role-link">Alex Morgan</a></td>
+                  <td class="td-email">alex.morgan@company.example</td>
+                  <td>Super Admin</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Alex Morgan" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="role-link">Jordan Lee</a></td>
+                  <td class="td-email">jordan.lee@company.example</td>
+                  <td>Admin</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Jordan Lee" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="role-link">Sam Rivera</a></td>
+                  <td class="td-email">sam.rivera@company.example</td>
+                  <td>Admin</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Sam Rivera" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="role-link">Taylor Chen</a></td>
+                  <td class="td-email">taylor.chen@company.example</td>
+                  <td>Help Desk</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Taylor Chen" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="role-link">Riley Patel</a></td>
+                  <td class="td-email">riley.patel@company.example</td>
+                  <td>Security Analyst</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Riley Patel" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="role-link">Casey Nguyen</a></td>
+                  <td class="td-email">casey.nguyen@company.example</td>
+                  <td>Read-only</td>
+                  <td class="administrators-table__mid-spacer"></td>
+                  <td class="td-kebab"><button type="button" class="kebab-btn" aria-label="More options for Casey Nguyen" aria-expanded="false" aria-haspopup="true"></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="auth-config.js"></script>
+  <script src="permissions-data.js"></script>
+  <script src="profile-menu.js"></script>
+</body>
+</html>

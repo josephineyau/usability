@@ -118,6 +118,9 @@
       frag.appendChild(tr);
     });
     lastPre.after(frag);
+    if (typeof window.sophosProtoUpdateRolesTableAdminCounts === "function") {
+      window.sophosProtoUpdateRolesTableAdminCounts();
+    }
   }
 
   window.sophosProtoSyncCustomRolesFromStorage = syncCustomRolesTbodyFromLocalStorage;

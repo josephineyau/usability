@@ -96,32 +96,104 @@
         </div>
 
         <div class="tabs" role="tablist" aria-label="Edit custom role">
-          <button type="button" class="tab tab--active" role="tab" aria-selected="true">Permissions</button>
-          <button type="button" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge">0</span></button>
+          <button type="button" class="tab tab--active" id="role-tab-permissions" role="tab" aria-selected="true" aria-controls="role-panel-permissions">Permissions</button>
+          <button type="button" class="tab" id="role-tab-administrators" role="tab" aria-selected="false" aria-controls="role-panel-administrators">Administrators <span class="tab__badge" id="tab-admin-badge">0</span></button>
         </div>
 
-        <div class="panel">
-          <div class="perm-table-wrap">
-            <table class="perm-table" id="perm-table">
-              <thead>
-                <tr>
-                  <th scope="col" class="perm-th-feature">Products and features</th>
-                  <th scope="col" class="perm-th-perm perm-th-perm--rule">
-                    <span class="th-label-inline th-label-inline--perm">
-                      Permission
-                      <svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
-                    </span>
-                  </th>
-                  <th scope="colgroup" colspan="2" class="perm-th-compare">
-                    <div class="perm-compare-head">
-                      <span class="perm-compare-head__label">Compare with</span>
-                      <div class="perm-compare-head__dds" id="cmp-dd-mounts"></div>
-                    </div>
-                  </th>
-                  <th scope="col" class="perm-th-tail" aria-hidden="true"></th>
-                </tr>
-              </thead>
-            </table>
+        <div class="role-detail-panel" id="role-panel-permissions" role="tabpanel" aria-labelledby="role-tab-permissions">
+          <div class="panel">
+            <div class="perm-table-wrap">
+              <table class="perm-table" id="perm-table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="perm-th-feature">Products and features</th>
+                    <th scope="col" class="perm-th-perm perm-th-perm--rule">
+                      <span class="th-label-inline th-label-inline--perm">
+                        Permission
+                        <svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
+                      </span>
+                    </th>
+                    <th scope="colgroup" colspan="2" class="perm-th-compare">
+                      <div class="perm-compare-head">
+                        <span class="perm-compare-head__label">Compare with</span>
+                        <div class="perm-compare-head__dds" id="cmp-dd-mounts"></div>
+                      </div>
+                    </th>
+                    <th scope="col" class="perm-th-tail" aria-hidden="true"></th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="role-detail-panel" id="role-panel-administrators" role="tabpanel" aria-labelledby="role-tab-administrators" hidden>
+          <div class="panel panel--assign-admins">
+            <p class="assign-selector__intro">Assign administrators to this role</p>
+            <div class="assign-selector">
+              <div class="assign-selector__panel assign-selector__panel--available">
+                <div class="assign-selector__panel-head">
+                  <span class="assign-selector__panel-title">Available</span>
+                  <span class="assign-selector__count" id="assign-available-count">0 of 6</span>
+                </div>
+                <label class="search-field assign-selector__search">
+                  <span class="visually-hidden">Search available administrators</span>
+                  <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+                  <input type="search" id="assign-available-search" placeholder="Search" autocomplete="off" />
+                </label>
+                <div class="assign-selector__table-wrap">
+                  <table class="assign-selector__table" aria-label="Available administrators">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="assign-selector__th-check"><span class="visually-hidden">Select</span></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Current role</th>
+                      </tr>
+                    </thead>
+                    <tbody id="assign-available-tbody"></tbody>
+                  </table>
+                </div>
+                <nav class="assign-selector__pager" id="assign-available-pager" hidden aria-label="Available list pages">
+                  <button type="button" class="assign-selector__pager-btn" disabled aria-label="First page"><span aria-hidden="true">|«</span></button>
+                  <button type="button" class="assign-selector__pager-btn" disabled aria-label="Previous page"><span aria-hidden="true">‹</span></button>
+                  <button type="button" class="assign-selector__pager-num assign-selector__pager-num--active">1</button>
+                  <button type="button" class="assign-selector__pager-num">2</button>
+                  <button type="button" class="assign-selector__pager-num">3</button>
+                  <span class="assign-selector__pager-ellipsis" aria-hidden="true">…</span>
+                  <button type="button" class="assign-selector__pager-num">8</button>
+                  <button type="button" class="assign-selector__pager-num">9</button>
+                  <button type="button" class="assign-selector__pager-btn" aria-label="Next page"><span aria-hidden="true">›</span></button>
+                  <button type="button" class="assign-selector__pager-btn" aria-label="Last page"><span aria-hidden="true">»|</span></button>
+                </nav>
+              </div>
+              <div class="assign-selector__controls">
+                <button type="button" class="assign-selector__move assign-selector__move--right" id="assign-move-right" aria-label="Move to selected">›</button>
+                <button type="button" class="assign-selector__move assign-selector__move--left" id="assign-move-left" aria-label="Move to available">‹</button>
+              </div>
+              <div class="assign-selector__panel assign-selector__panel--selected">
+                <div class="assign-selector__panel-head">
+                  <span class="assign-selector__panel-title">Selected</span>
+                  <span class="assign-selector__count assign-selector__count--solo" id="assign-selected-count">0</span>
+                </div>
+                <label class="search-field assign-selector__search">
+                  <span class="visually-hidden">Search selected administrators</span>
+                  <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+                  <input type="search" id="assign-selected-search" placeholder="Search" autocomplete="off" />
+                </label>
+                <div class="assign-selector__table-wrap assign-selector__table-wrap--selected">
+                  <table class="assign-selector__table" aria-label="Selected administrators">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="assign-selector__th-check"><span class="visually-hidden">Select</span></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Current role</th>
+                      </tr>
+                    </thead>
+                    <tbody id="assign-selected-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -144,6 +216,7 @@
   </div>
 
   <script src="permissions-data.js"></script>
+  <script src="role-admins-data.js"></script>
   <script src="add-role.js"></script>
   <script src="auth-config.js"></script>
   <script src="profile-menu.js"></script>

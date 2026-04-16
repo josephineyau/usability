@@ -57,7 +57,7 @@
     <div class="page__after-title">
       <div class="page__inner">
         <div class="tabs" role="tablist" aria-label="Manage roles">
-          <button type="button" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge">6</span></button>
+          <a href="administrators.html" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge" id="administrators-tab-badge">6</span></a>
           <button type="button" class="tab tab--active" role="tab" aria-selected="true">Roles</button>
           <a href="permissions-matrix.html" class="tab" role="tab" aria-selected="false">Permissions matrix</a>
         </div>
@@ -90,8 +90,9 @@
                   </th>
                   <th scope="col">Type</th>
                   <th scope="col">
-                    <span class="th-sort__label">Description</span>
-                    <svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
+                    <span class="th-label-with-info">
+                      <span class="th-sort__label">Description</span><svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>
+                    </span>
                   </th>
                   <th scope="col" class="th-actions"><span class="visually-hidden">Actions</span></th>
                 </tr>
@@ -106,35 +107,35 @@
                 </tr>
                 <tr data-role-type="predefined">
                   <td><a href="edit-predefined-role.html?role=Admin" class="role-link" title="Admin">Admin</a></td>
-                  <td class="td-num">3</td>
+                  <td class="td-num">2</td>
                   <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
                   <td class="td-desc" title="The Admin role is a pre-defined role that has access to almost everything like the Super Admin except the ability to manage roles and role assignments.">The Admin role is a pre-defined role that has access to almost everything like the Super Admin except the ability to manage roles and role assignments.</td>
                   <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Admin" aria-expanded="false" aria-haspopup="true"></button></td>
                 </tr>
                 <tr data-role-type="predefined">
                   <td><a href="edit-predefined-role.html?role=Responder" class="role-link" title="Responder">Responder</a></td>
-                  <td class="td-num">2</td>
+                  <td class="td-num">0</td>
                   <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
                   <td class="td-desc" title="The Partner Responder role allows the admin to remedy threats from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.">The Partner Responder role allows the admin to remedy threats from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.</td>
                   <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Responder" aria-expanded="false" aria-haspopup="true"></button></td>
                 </tr>
                 <tr data-role-type="predefined">
                   <td><a href="edit-predefined-role.html?role=Help%20Desk" class="role-link" title="Help Desk">Help Desk</a></td>
-                  <td class="td-num">4</td>
+                  <td class="td-num">1</td>
                   <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
                   <td class="td-desc" title="The Help Desk role is a pre-defined role that allows the admin to take certain administrative actions.">The Help Desk role is a pre-defined role that allows the admin to take certain administrative actions. <a href="#" class="more-info">More Info</a></td>
                   <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Help Desk" aria-expanded="false" aria-haspopup="true"></button></td>
                 </tr>
                 <tr data-role-type="predefined">
                   <td><a href="edit-predefined-role.html?role=Security%20Analyst" class="role-link" title="Security Analyst">Security Analyst</a></td>
-                  <td class="td-num">2</td>
+                  <td class="td-num">1</td>
                   <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
                   <td class="td-desc" title="The Partner Analyst role allows the admin to analyze security incidents from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.">The Partner Analyst role allows the admin to analyze security incidents from within Sophos Central Partner and Sophos Central Admin. Placeholder text... TBD.</td>
                   <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Security Analyst" aria-expanded="false" aria-haspopup="true"></button></td>
                 </tr>
                 <tr data-role-type="predefined">
                   <td><a href="edit-predefined-role.html?role=Read-only" class="role-link" title="Read-only">Read-only</a></td>
-                  <td class="td-num">0</td>
+                  <td class="td-num">1</td>
                   <td><span class="type-cell"><img class="predef-shield-img" src="assets/_icon_shield.svg" width="16" height="16" alt="" decoding="async" /><span>Pre-defined</span></span></td>
                   <td class="td-desc" title="The Read-only role is a pre-defined role that has read-only access to everything in Sophos Central.">The Read-only role is a pre-defined role that has read-only access to everything in Sophos Central.</td>
                   <td class="td-kebab"><button type="button" class="kebab-btn role-kebab" aria-label="More options for Read-only" aria-expanded="false" aria-haspopup="true"></button></td>
@@ -226,6 +227,8 @@
     </div>
   </div>
 
+  <script src="role-admins-data.js"></script>
+  <script src="permissions-data.js"></script>
   <script src="custom-roles-sync.js"></script>
   <script src="prototype.js"></script>
   <script src="auth-config.js"></script>

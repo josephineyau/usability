@@ -434,6 +434,35 @@
   }
 
   var tbody = document.getElementById("roles-tbody");
+
+  function getRoleNameFromRolesRow(tr) {
+    if (!tr) return "";
+    var dn = tr.getAttribute("data-role-name");
+    if (dn) return String(dn).trim();
+    var link = tr.querySelector(".role-link");
+    return link ? link.textContent.trim() : "";
+  }
+
+  function updateRolesTableAdminCounts() {
+    if (typeof window.getAdminsForRole !== "function") return;
+    var tb = document.getElementById("roles-tbody");
+    if (tb) {
+      tb.querySelectorAll("tr").forEach(function (tr) {
+        var name = getRoleNameFromRolesRow(tr);
+        if (!name) return;
+        var tdNum = tr.querySelector(".td-num");
+        if (!tdNum) return;
+        tdNum.textContent = String(window.getAdminsForRole(name).length);
+      });
+    }
+    var adBadge = document.getElementById("administrators-tab-badge");
+    if (adBadge && Array.isArray(window.sophosProtoRoleAdmins)) {
+      adBadge.textContent = String(window.sophosProtoRoleAdmins.length);
+    }
+  }
+
+  window.sophosProtoUpdateRolesTableAdminCounts = updateRolesTableAdminCounts;
+
   if (tbody && roleMenu) {
     tbody.addEventListener("click", function (e) {
       var btn = e.target.closest(".role-kebab");
@@ -683,6 +712,8 @@
       }
     });
   }
+
+  updateRolesTableAdminCounts();
 
   try {
     var msg = sessionStorage.getItem("sophosProtoToastMessage");

@@ -40,7 +40,7 @@
     </div>
   </header>
 
-  <main class="page" role="main">
+  <main class="page page--permissions-matrix" role="main">
     <div class="page__title-bar">
       <div class="page__title-bar-inner">
         <h1 class="page-title">Manage roles and administrators</h1>
@@ -57,7 +57,7 @@
     <div class="page__after-title">
       <div class="page__inner">
         <div class="tabs" role="tablist" aria-label="Manage roles">
-          <button type="button" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge">6</span></button>
+          <a href="administrators.html" class="tab" role="tab" aria-selected="false">Administrators <span class="tab__badge">6</span></a>
           <a href="index.html" class="tab" role="tab" aria-selected="false">Roles</a>
           <span class="tab tab--active" role="tab" aria-selected="true">Permissions matrix</span>
         </div>
@@ -67,12 +67,28 @@
             <div class="toolbar__left">
               <button type="button" class="btn-primary" id="add-role-open">Add role</button>
             </div>
-            <div class="toolbar__right">
-              <label class="search-field">
+            <div class="toolbar__right toolbar__right--perm-matrix">
+              <label class="search-field search-field--perm-matrix">
                 <span class="visually-hidden">Search features</span>
                 <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
                 <input type="search" id="perm-matrix-search" placeholder="Search" autocomplete="off" />
               </label>
+              <button
+                type="button"
+                class="perm-matrix-columns-btn"
+                id="perm-matrix-columns-btn"
+                title="show/hide columns"
+                aria-label="show/hide columns"
+              >
+                <img
+                  class="perm-matrix-columns-btn__icon"
+                  src="assets/icon-cog.png"
+                  width="20"
+                  height="20"
+                  alt=""
+                  decoding="async"
+                />
+              </button>
             </div>
           </div>
 

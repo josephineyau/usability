@@ -454,7 +454,8 @@
   function compareAllowed(spec, f) {
     if (!spec || !f) return null;
     if (spec.type === "custom") {
-      return f.ro ? "yes" : "no";
+      /* Custom roles: use saved permissions per feature (add-role.js compareCellValue, permissions matrix). */
+      return null;
     }
     var key = spec.key;
     if (key === "super-admin" || key === "admin") return "yes";
@@ -514,11 +515,106 @@
     return false;
   }
 
+  /**
+   * Uniform preset for every permission group (same as add-role buildPermissionsFromPredefinedCloneKey).
+   * Used when seeding default custom role data after prototype logout reset.
+   */
+  function defaultPermissionsUniformPreset(presetKey) {
+    var uniform = ["super-admin", "admin", "help-desk", "read-only"];
+    if (uniform.indexOf(presetKey) === -1) {
+      return { groups: {} };
+    }
+    var groups = {};
+    GROUPS.forEach(function (g) {
+      groups[g.id] = { v: presetKey };
+    });
+    return { groups: groups };
+  }
+
+  var LS_PROTO_CUSTOM_NAMES = "sophosProtoCustomRoleNames";
+  var LS_PROTO_CUSTOM_DATA = "sophosProtoCustomRoleData";
+
+  /**
+   * Prototype default custom roles (name + preset). Single source for logout reset + storage hydration.
+   */
+  var PROTOTYPE_CUSTOM_ROLE_SEEDS = [
+    {
+      name: "Tier 1 help desk",
+      preset: "help-desk",
+      description: "Custom role for your organization.",
+    },
+  ];
+
+  function getPrototypeLogoutCustomRoleDataMap() {
+    var map = {};
+    PROTOTYPE_CUSTOM_ROLE_SEEDS.forEach(function (s) {
+      map[s.name] = {
+        description: s.description,
+        permissions: defaultPermissionsUniformPreset(s.preset),
+      };
+    });
+    return map;
+  }
+
+  function getPrototypeLogoutCustomRoleNames() {
+    return PROTOTYPE_CUSTOM_ROLE_SEEDS.map(function (s) {
+      return s.name;
+    });
+  }
+
+  /**
+   * If localStorage lists a seeded role but has no permissions (e.g. before logout or old sessions),
+   * merge Help desk–equivalent data so compare / edit role work. Runs at permissions-data load
+   * (before add-role.js) so compare initializes with valid data.
+   */
+  function ensurePrototypeCustomRoleStorageSeeded() {
+    if (typeof window === "undefined" || !window.localStorage) return;
+    try {
+      var names = JSON.parse(window.localStorage.getItem(LS_PROTO_CUSTOM_NAMES) || "[]");
+      if (!Array.isArray(names)) names = [];
+      var map = JSON.parse(window.localStorage.getItem(LS_PROTO_CUSTOM_DATA) || "{}");
+      if (!map || typeof map !== "object") map = {};
+      var changed = false;
+      PROTOTYPE_CUSTOM_ROLE_SEEDS.forEach(function (s) {
+        if (names.indexOf(s.name) === -1) return;
+        var rec = map[s.name];
+        if (rec && rec.permissions && rec.permissions.groups) return;
+        map[s.name] = {
+          description: s.description,
+          permissions: defaultPermissionsUniformPreset(s.preset),
+        };
+        changed = true;
+      });
+      if (changed) {
+        window.localStorage.setItem(LS_PROTO_CUSTOM_DATA, JSON.stringify(map));
+        if (typeof BroadcastChannel !== "undefined") {
+          try {
+            var ch = new BroadcastChannel("sophosProtoCustomRoles");
+            ch.postMessage({ type: "change" });
+            ch.close();
+          } catch (bcErr) {
+            /* ignore */
+          }
+        }
+      }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
   global.sophosProtoPermissions = {
     GROUPS: GROUPS,
     featureByRef: featureByRef,
     compareAllowed: compareAllowed,
     annotateTreePositions: annotateTreePositions,
     featureAllowedFromSavedGroupState: featureAllowedFromSavedGroupState,
+    defaultPermissionsUniformPreset: defaultPermissionsUniformPreset,
+    getPrototypeLogoutCustomRoleDataMap: getPrototypeLogoutCustomRoleDataMap,
+    getPrototypeLogoutCustomRoleNames: getPrototypeLogoutCustomRoleNames,
+    ensurePrototypeCustomRoleStorageSeeded: ensurePrototypeCustomRoleStorageSeeded,
   };
+
+  if (typeof window !== "undefined" && window.localStorage) {
+    ensurePrototypeCustomRoleStorageSeeded();
+  }
 })(typeof window !== "undefined" ? window : this);

@@ -5,16 +5,62 @@
   var LS_CONSUMED_ADMIN_PASSWORDS = "sophosProtoConsumedAdminPasswords";
   var LS_CUSTOM_ROLE_NAMES = "sophosProtoCustomRoleNames";
   var LS_CUSTOM_ROLE_DATA = "sophosProtoCustomRoleData";
-  /** After logout, custom roles = this list only (predefined rows stay from HTML). */
-  var DEFAULT_LOGOUT_CUSTOM_ROLES = ["Tier 1 help desk"];
+
+  function getDefaultLogoutRoleNames() {
+    var P = window.sophosProtoPermissions;
+    if (P && typeof P.getPrototypeLogoutCustomRoleNames === "function") {
+      return P.getPrototypeLogoutCustomRoleNames();
+    }
+    return ["Tier 1 help desk"];
+  }
+
+  function defaultLogoutCustomRoleDataMap() {
+    var P = window.sophosProtoPermissions;
+    if (P && typeof P.getPrototypeLogoutCustomRoleDataMap === "function") {
+      return P.getPrototypeLogoutCustomRoleDataMap();
+    }
+    return {};
+  }
+
+  /**
+   * Prototype “reset” after logout: fixed custom-role list, but keep saved permission data
+   * from localStorage when present (so Tier 1 help desk edits survive log out / log in).
+   */
+  function mergeLogoutCustomRoleDataWithExisting() {
+    var defaultNames = getDefaultLogoutRoleNames();
+    var seedMap = defaultLogoutCustomRoleDataMap();
+    var existing = {};
+    try {
+      existing = JSON.parse(localStorage.getItem(LS_CUSTOM_ROLE_DATA) || "{}");
+    } catch (e) {
+      existing = {};
+    }
+    if (!existing || typeof existing !== "object") existing = {};
+
+    var merged = {};
+    var i;
+    for (i = 0; i < defaultNames.length; i++) {
+      var name = defaultNames[i];
+      var prev = existing[name];
+      if (prev && prev.permissions && prev.permissions.groups) {
+        merged[name] = prev;
+      } else if (seedMap[name]) {
+        merged[name] = seedMap[name];
+      }
+    }
+    return merged;
+  }
 
   function resetPrototypeRolesToDefault() {
     try {
       localStorage.setItem(
         LS_CUSTOM_ROLE_NAMES,
-        JSON.stringify(DEFAULT_LOGOUT_CUSTOM_ROLES)
+        JSON.stringify(getDefaultLogoutRoleNames())
       );
-      localStorage.setItem(LS_CUSTOM_ROLE_DATA, JSON.stringify({}));
+      localStorage.setItem(
+        LS_CUSTOM_ROLE_DATA,
+        JSON.stringify(mergeLogoutCustomRoleDataWithExisting())
+      );
     } catch (e) {
       /* ignore */
     }
