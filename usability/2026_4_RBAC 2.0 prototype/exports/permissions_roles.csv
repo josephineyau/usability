@@ -1,7 +1,76 @@
-Matrix_column_order,Role_Key,UI_Label,Data_source_in_permissions_data_js
-1,super-admin,Super Admin,Always granted (not per-feature a/b/ro)
-2,admin,Admin,Always granted
-3,responder,Responder,Feature field "b" (yes/no)
-4,help-desk,Help Desk,Feature field "a" (yes/no)
-5,analyst,Security Analyst,Same as "a" in current prototype
-6,read-only,Read-only,Feature field "ro" (yes = allowed for read-only role)
+Parent_Group_ID,Parent_Group_Name,Sort_Order,Row_Kind,Feature_ID,Display_Name,Tree_Group,Super_Admin,Admin,Responder,Help_Desk,Security_Analyst,Read_only
+general,General permissions,1,SUBCATEGORY,general:0,Account,,yes,yes,yes,yes,yes,yes
+general,General permissions,2,LINKED_FEATURE,general:1,Manage account,1,yes,no,no,no,no,no
+general,General permissions,3,LINKED_FEATURE,general:2,Perform account operations,1,yes,yes,no,no,no,no
+general,General permissions,4,SUBITEM_LABEL,general:3,Run account health checks,,yes,yes,yes,yes,yes,yes
+general,General permissions,5,SUBCATEGORY,general:4,Alerts,,yes,yes,yes,yes,yes,yes
+general,General permissions,6,LINKED_FEATURE,general:5,Manage alert notifications,2,yes,no,no,no,no,no
+general,General permissions,7,LINKED_FEATURE,general:6,View alerts,2,yes,yes,yes,yes,yes,yes
+general,General permissions,8,SUBCATEGORY,general:7,Directory & Federation,,yes,yes,yes,yes,yes,yes
+general,General permissions,9,SUBITEM_LABEL,general:8,Manage directory sync client,,yes,no,no,no,no,no
+general,General permissions,10,LINKED_FEATURE,general:9,Manage directory,3,yes,no,no,no,no,no
+general,General permissions,11,LINKED_FEATURE,general:10,View directory,3,yes,yes,yes,yes,yes,yes
+general,General permissions,12,SUBITEM_LABEL,general:11,Manage federation,,yes,no,no,no,no,no
+general,General permissions,13,SUBCATEGORY,general:12,Identity & Access,,yes,yes,yes,yes,yes,yes
+general,General permissions,14,LINKED_FEATURE,general:13,Manage credentials,4,yes,no,no,no,no,no
+general,General permissions,15,LINKED_FEATURE,general:14,View credentials,4,yes,yes,yes,yes,yes,yes
+general,General permissions,16,SUBITEM_LABEL,general:15,Manage Users and Groups,,yes,no,no,no,no,no
+general,General permissions,17,LINKED_FEATURE,general:16,Manage roles,5,yes,no,no,no,no,no
+general,General permissions,18,LINKED_FEATURE,general:17,View roles,5,yes,yes,yes,yes,yes,yes
+general,General permissions,19,SUBCATEGORY,general:18,Integrations,,yes,yes,yes,yes,yes,yes
+general,General permissions,20,LINKED_FEATURE,general:19,Manage integrations,6,yes,no,no,no,no,no
+general,General permissions,21,LINKED_FEATURE,general:20,View integrations,6,yes,yes,yes,yes,yes,yes
+general,General permissions,22,SUBCATEGORY,general:21,Monitoring & Reports,,yes,yes,yes,yes,yes,yes
+general,General permissions,23,LINKED_FEATURE,general:22,Manage events,7,yes,yes,no,no,no,no
+general,General permissions,24,LINKED_FEATURE,general:23,View events,7,yes,yes,yes,yes,yes,yes
+general,General permissions,25,SUBITEM_LABEL,general:24,Manage reports,,yes,yes,no,no,no,no
+general,General permissions,26,SUBITEM_LABEL,general:25,View audit logs,,yes,yes,yes,yes,yes,yes
+general,General permissions,27,SUBCATEGORY,general:26,Platform Settings,,yes,yes,yes,yes,yes,yes
+general,General permissions,28,SUBITEM_LABEL,general:27,Manage download tokens,,yes,yes,no,no,no,no
+general,General permissions,29,SUBITEM_LABEL,general:28,Manage MDR Preferences,,yes,yes,no,no,no,no
+general,General permissions,30,SUBITEM_LABEL,general:29,Manage SLEC,,yes,yes,no,no,no,no
+general,General permissions,31,LINKED_FEATURE,general:30,Manage tags,8,yes,yes,no,no,no,no
+general,General permissions,32,LINKED_FEATURE,general:31,View tags,8,yes,yes,yes,yes,yes,yes
+general,General permissions,33,SUBITEM_LABEL,general:32,Submit surveys & feedback,,yes,yes,yes,yes,yes,yes
+general,General permissions,34,LINKED_FEATURE,general:33,Manage web profiles,9,yes,yes,no,no,no,no
+general,General permissions,35,LINKED_FEATURE,general:34,View web profiles,9,yes,yes,yes,yes,yes,yes
+general,General permissions,36,SUBCATEGORY,general:35,Policies,,yes,yes,yes,yes,yes,yes
+general,General permissions,37,SUBITEM_LABEL,general:36,"Create, modify, and delete policies",10,yes,yes,no,no,no,no
+general,General permissions,38,SUBITEM_LABEL,general:37,Assign polices,10,yes,yes,yes,no,no,no
+general,General permissions,39,SUBITEM_LABEL,general:38,View policies,10,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,1,SUBCATEGORY,endpoint:0,Device Controls,,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,2,LINKED_FEATURE,endpoint:1,Configure endpoint auto-remove policy,1,yes,yes,no,no,no,no
+endpoint,Endpoint Protection,3,LINKED_FEATURE,endpoint:2,View endpoint auto-remove policy,1,yes,yes,yes,yes,yes,yes
+endpoint,Endpoint Protection,4,SUBITEM_LABEL,endpoint:3,Configure endpoint live terminal,,yes,no,no,no,no,no
+endpoint,Endpoint Protection,5,SUBITEM_LABEL,endpoint:4,Launch endpoint live terminal,,yes,no,yes,no,no,yes
+endpoint,Endpoint Protection,6,SUBITEM_LABEL,endpoint:5,Override endpoint tamper protection,,yes,yes,yes,no,no,yes
+endpoint,Endpoint Protection,7,SUBITEM_LABEL,endpoint:6,Unisolate endpoints,,yes,yes,yes,yes,no,yes
+server,Server Protection,1,SUBCATEGORY,server:0,Device Controls,,yes,yes,yes,yes,yes,yes
+server,Server Protection,2,LINKED_FEATURE,server:1,Configure server auto-remove policy,1,yes,yes,no,no,no,no
+server,Server Protection,3,LINKED_FEATURE,server:2,View server auto-remove policy,1,yes,yes,yes,yes,yes,yes
+server,Server Protection,4,SUBITEM_LABEL,server:3,Configure server live terminal,,yes,no,no,no,no,no
+server,Server Protection,5,SUBITEM_LABEL,server:4,Launch server live terminal,,yes,no,yes,no,no,yes
+server,Server Protection,6,SUBITEM_LABEL,server:5,Override server tamper protection,,yes,yes,yes,no,no,yes
+server,Server Protection,7,SUBITEM_LABEL,server:6,Unisolate servers,,yes,yes,yes,yes,no,yes
+mobile,Mobile,1,STANDALONE_FEATURE,mobile:0,Mobile enrollment,,yes,yes,yes,no,no,yes
+mobile,Mobile,2,STANDALONE_FEATURE,mobile:1,Mobile compliance,,yes,yes,no,yes,yes,no
+encryption,Encryption,1,STANDALONE_FEATURE,encryption:0,Device encryption,,yes,yes,yes,yes,yes,yes
+encryption,Encryption,2,STANDALONE_FEATURE,encryption:1,Recovery keys,,yes,yes,no,no,no,no
+email,Email Security,1,STANDALONE_FEATURE,email:0,Message quarantine,,yes,yes,yes,yes,yes,yes
+email,Email Security,2,STANDALONE_FEATURE,email:1,Policy rules,,yes,yes,no,yes,yes,no
+phish,Phish Threat,1,STANDALONE_FEATURE,phish:0,Simulation campaigns,,yes,yes,yes,no,no,yes
+phish,Phish Threat,2,STANDALONE_FEATURE,phish:1,Training assignments,,yes,yes,yes,yes,yes,no
+wireless,Wireless,1,STANDALONE_FEATURE,wireless:0,Access points,,yes,yes,no,yes,yes,yes
+wireless,Wireless,2,STANDALONE_FEATURE,wireless:1,SSID management,,yes,yes,yes,yes,yes,no
+firewall,Firewall,1,STANDALONE_FEATURE,firewall:0,Firewall rules,,yes,yes,yes,yes,yes,yes
+firewall,Firewall,2,STANDALONE_FEATURE,firewall:1,VPN settings,,yes,yes,yes,no,no,no
+cloud,Cloud Optix,1,STANDALONE_FEATURE,cloud:0,Cloud inventory,,yes,yes,no,yes,yes,yes
+cloud,Cloud Optix,2,STANDALONE_FEATURE,cloud:1,Misconfiguration alerts,,yes,yes,yes,yes,yes,no
+ztn,Zero Trust Network,1,STANDALONE_FEATURE,ztn:0,ZTNA policies,,yes,yes,yes,no,no,yes
+ztn,Zero Trust Network,2,STANDALONE_FEATURE,ztn:1,Access logs,,yes,yes,yes,yes,yes,no
+switches,Switches,1,STANDALONE_FEATURE,switches:0,Switch configuration,,yes,yes,yes,yes,yes,yes
+switches,Switches,2,STANDALONE_FEATURE,switches:1,Port management,,yes,yes,no,yes,yes,no
+dns,DNS Protection,1,STANDALONE_FEATURE,dns:0,DNS policies,,yes,yes,yes,yes,yes,yes
+dns,DNS Protection,2,STANDALONE_FEATURE,dns:1,Blocked domains,,yes,yes,yes,no,no,no
+risk,Managed Risk,1,STANDALONE_FEATURE,risk:0,Risk assessments,,yes,yes,no,yes,yes,yes
+risk,Managed Risk,2,STANDALONE_FEATURE,risk:1,Remediation tasks,,yes,yes,yes,yes,yes,no

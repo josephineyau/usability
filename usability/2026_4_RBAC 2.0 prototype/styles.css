@@ -22,8 +22,8 @@
   --breadcrumb-current: #3c4043;
   --shield-gray: #777a7d;
   /* Permissions matrix: fixed column widths + scroll viewport height */
-  --perm-matrix-feature-col: 280px;
-  --perm-matrix-role-col: 120px;
+  --perm-matrix-feature-col: 400px;
+  --perm-matrix-role-col: 135px;
   --perm-matrix-scroll-max-height: calc(100vh - 280px);
 }
 
@@ -1866,6 +1866,27 @@ body[data-role-page="predefined-edit"] .perm-table tbody td.perm-compare {
   color: var(--text);
 }
 
+/* “Manage directory” + same gray info treatment as Permission column header */
+.perm-tree__label.perm-tree__label--with-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.perm-tree__label--with-info .perm-tree__label-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.perm-tree__label--with-info .info-icon-svg {
+  margin-left: 0;
+  flex-shrink: 0;
+  color: var(--table-header-info);
+}
+
 .perm-compare {
   text-align: center;
   font-weight: 700;
@@ -2262,7 +2283,7 @@ a.tab {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 108px;
+  max-width: calc(var(--perm-matrix-role-col) - 28px);
   margin: 0 auto;
 }
 
@@ -2616,6 +2637,11 @@ a.tab {
   padding: 10px 8px;
   border-top: 1px solid var(--table-border);
   background: var(--white);
+}
+
+/* `display: flex` above wins over the `hidden` attribute unless this is present. */
+.assign-selector__pager[hidden] {
+  display: none !important;
 }
 
 .assign-selector__pager-btn,

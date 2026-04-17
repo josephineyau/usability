@@ -7,14 +7,18 @@
   var CMP_MODAL_PREDEFINED = [
     { value: "super-admin", label: "Super Admin" },
     { value: "admin", label: "Admin" },
-    { value: "help-desk", label: "Help desk" },
+    { value: "responder", label: "Responder" },
+    { value: "help-desk", label: "Help Desk" },
+    { value: "analyst", label: "Security Analyst" },
     { value: "read-only", label: "Read-only" },
   ];
 
   var PREDEFINED_KEY_TO_CLONE_URL = {
     "super-admin": "Super Admin",
     admin: "Admin",
+    responder: "Responder",
     "help-desk": "Help Desk",
+    analyst: "Security Analyst",
     "read-only": "Read-only",
   };
 

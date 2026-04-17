@@ -3,7 +3,7 @@
  * Loaded by add-role.js (Add / Edit / View) and permissions-matrix.js so lists
  * and granted/denied logic stay identical everywhere.
  *
- * Generated from exports/permissions_feature_catalog.csv — feature fields:
+ * Feature tree and per-role yes/no columns are generated from exports/permissions_roles.csv — fields:
  *   ro, a (Help Desk), b (Responder), aa (Security Analyst; compareAllowed uses aa for analyst key).
  */
 (function (global) {
@@ -15,56 +15,7 @@
       name: "General permissions",
       features: [
         {
-          n: "View organization summary",
-          ro: true,
-          a: "yes",
-          b: "yes",
-          aa: "yes"
-        },
-        {
-          n: "Manage account settings",
-          ro: false,
-          a: "yes",
-          b: "no",
-          aa: "yes"
-        },
-        {
-          n: "Manage administrators",
-          ro: false,
-          a: "no",
-          b: "no",
-          aa: "no"
-        },
-        {
-          n: "Manage roles and permissions",
-          ro: false,
-          a: "no",
-          b: "no",
-          aa: "no"
-        },
-        {
-          n: "View audit log",
-          ro: true,
-          a: "yes",
-          b: "yes",
-          aa: "yes"
-        },
-        {
-          n: "Manage licenses",
-          ro: false,
-          a: "no",
-          b: "no",
-          aa: "no"
-        },
-        {
-          n: "Manage API credentials",
-          ro: false,
-          a: "no",
-          b: "no",
-          aa: "no"
-        },
-        {
-          n: "Alert notifications",
+          n: "Account",
           ro: true,
           a: "yes",
           b: "yes",
@@ -72,7 +23,67 @@
           subsection: true
         },
         {
-          n: "Configure alert recipients",
+          n: "Manage account",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "Perform account operations",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "Run account health checks",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subitem: true
+        },
+        {
+          n: "Alerts",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Manage alert notifications",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 2
+        },
+        {
+          n: "View alerts",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 2
+        },
+        {
+          n: "Directory & Federation",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Manage directory sync client",
           ro: false,
           a: "no",
           b: "no",
@@ -80,52 +91,258 @@
           subitem: true
         },
         {
-          n: "Take action on alerts",
+          n: "Manage directory",
           ro: false,
-          a: "yes",
-          b: "yes",
-          aa: "yes",
-          treeChild: true
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 3
         },
         {
-          n: "Read alerts",
+          n: "View directory",
           ro: true,
           a: "yes",
           b: "yes",
           aa: "yes",
-          treeChild: true
+          treeChild: true,
+          treeGroup: 3
         },
         {
-          n: "Reporting",
+          n: "Manage federation",
           ro: false,
-          a: "yes",
+          a: "no",
           b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Identity & Access",
+          ro: true,
+          a: "yes",
+          b: "yes",
           aa: "yes",
           subsection: true
         },
         {
-          n: "Create and delete reports",
+          n: "Manage credentials",
           ro: false,
-          a: "yes",
-          b: "yes",
-          aa: "yes",
-          treeChild: true
-        },
-        {
-          n: "Update reports",
-          ro: false,
-          a: "yes",
+          a: "no",
           b: "no",
-          aa: "yes",
-          treeChild: true
+          aa: "no",
+          treeChild: true,
+          treeGroup: 4
         },
         {
-          n: "Read reports",
+          n: "View credentials",
           ro: true,
           a: "yes",
           b: "yes",
           aa: "yes",
-          treeChild: true
+          treeChild: true,
+          treeGroup: 4
+        },
+        {
+          n: "Manage Users and Groups",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Manage roles",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 5
+        },
+        {
+          n: "View roles",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 5
+        },
+        {
+          n: "Integrations",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Manage integrations",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 6
+        },
+        {
+          n: "View integrations",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 6
+        },
+        {
+          n: "Monitoring & Reports",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Manage events",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 7
+        },
+        {
+          n: "View events",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 7
+        },
+        {
+          n: "Manage reports",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "View audit logs",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subitem: true
+        },
+        {
+          n: "Platform Settings",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Manage download tokens",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Manage MDR Preferences",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Manage SLEC",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Manage tags",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 8
+        },
+        {
+          n: "View tags",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 8
+        },
+        {
+          n: "Submit surveys & feedback",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subitem: true
+        },
+        {
+          n: "Manage web profiles",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 9
+        },
+        {
+          n: "View web profiles",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 9
+        },
+        {
+          n: "Policies",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subsection: true
+        },
+        {
+          n: "Create, modify, and delete policies",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Assign polices",
+          ro: false,
+          a: "no",
+          b: "yes",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "View policies",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "yes",
+          subitem: true
         }
       ],
     },
@@ -134,64 +351,62 @@
       name: "Endpoint Protection",
       features: [
         {
-          n: "Real-time scanning",
-          ro: true,
-          a: "yes",
-          b: "yes",
-          aa: "yes"
-        },
-        {
-          n: "Threat cases",
-          ro: false,
-          a: "no",
-          b: "yes",
-          aa: "no"
-        },
-        {
-          n: "Manage ABC",
-          ro: false,
-          a: "no",
-          b: "yes",
-          aa: "no"
-        },
-        {
-          n: "Edit ABC",
-          ro: false,
-          a: "no",
-          b: "yes",
-          aa: "no",
-          treeChild: true
-        },
-        {
-          n: "Add ABC",
-          ro: false,
-          a: "no",
-          b: "yes",
-          aa: "yes",
-          treeChild: true
-        },
-        {
-          n: "Delete ABC",
-          ro: false,
-          a: "no",
-          b: "yes",
-          aa: "no",
-          treeChild: true
-        },
-        {
-          n: "Read ABC",
+          n: "Device Controls",
           ro: true,
           a: "yes",
           b: "yes",
           aa: "yes",
-          treeChild: true
+          subsection: true
         },
         {
-          n: "Turn on/off Tamper protection",
+          n: "Configure endpoint auto-remove policy",
           ro: false,
           a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "View endpoint auto-remove policy",
+          ro: true,
+          a: "yes",
           b: "yes",
-          aa: "yes"
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "Configure endpoint live terminal",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Launch endpoint live terminal",
+          ro: true,
+          a: "no",
+          b: "yes",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Override endpoint tamper protection",
+          ro: true,
+          a: "no",
+          b: "yes",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Unisolate endpoints",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "no",
+          subitem: true
         }
       ],
     },
@@ -200,18 +415,62 @@
       name: "Server Protection",
       features: [
         {
-          n: "Server policies",
+          n: "Device Controls",
           ro: true,
           a: "yes",
-          b: "no",
-          aa: "yes"
+          b: "yes",
+          aa: "yes",
+          subsection: true
         },
         {
-          n: "Server reports",
+          n: "Configure server auto-remove policy",
           ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "View server auto-remove policy",
+          ro: true,
           a: "yes",
           b: "yes",
-          aa: "yes"
+          aa: "yes",
+          treeChild: true,
+          treeGroup: 1
+        },
+        {
+          n: "Configure server live terminal",
+          ro: false,
+          a: "no",
+          b: "no",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Launch server live terminal",
+          ro: true,
+          a: "no",
+          b: "yes",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Override server tamper protection",
+          ro: true,
+          a: "no",
+          b: "yes",
+          aa: "no",
+          subitem: true
+        },
+        {
+          n: "Unisolate servers",
+          ro: true,
+          a: "yes",
+          b: "yes",
+          aa: "no",
+          subitem: true
         }
       ],
     },
@@ -466,6 +725,18 @@
     return null;
   }
 
+  /**
+   * Consecutive LINKED_FEATURE rows form one bracket run unless Tree_Group changes
+   * (optional numeric treeGroup on each feature from CSV). If treeGroup is omitted
+   * on all rows in a streak, behavior is unchanged: one run for the whole streak.
+   */
+  function sameLinkedTreeGroup(prev, curr) {
+    var p = prev.treeGroup;
+    var c = curr.treeGroup;
+    if (p === undefined && c === undefined) return true;
+    return p === c;
+  }
+
   function annotateTreePositions(features) {
     var i = 0;
     while (i < features.length) {
@@ -474,7 +745,12 @@
         continue;
       }
       var runStart = i;
-      while (i < features.length && features[i].treeChild) {
+      i += 1;
+      while (
+        i < features.length &&
+        features[i].treeChild &&
+        sameLinkedTreeGroup(features[i - 1], features[i])
+      ) {
         i += 1;
       }
       var runEnd = i - 1;
@@ -506,6 +782,10 @@
     if (v === "none") return false;
     if (v === "read-only") return !!f.ro;
     if (v === "help-desk") return f.a === "yes";
+    if (v === "responder") return f.b === "yes";
+    if (v === "analyst") {
+      return (f.aa !== undefined ? f.aa : f.a) === "yes";
+    }
     if (v === "custom") {
       if (gstate.cbs && Object.prototype.hasOwnProperty.call(gstate.cbs, ref)) {
         return !!gstate.cbs[ref];

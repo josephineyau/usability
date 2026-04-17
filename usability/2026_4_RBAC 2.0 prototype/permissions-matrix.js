@@ -24,8 +24,8 @@
     '<svg class="perm-group-toggle__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   /** Minimum column widths (must match styles.css --perm-matrix-* tokens). */
-  var MATRIX_FEATURE_MIN = 280;
-  var MATRIX_ROLE_MIN = 120;
+  var MATRIX_FEATURE_MIN = 400;
+  var MATRIX_ROLE_MIN = 135;
 
   function applyMatrixColumnStretch() {
     var table = document.getElementById("perm-matrix-table");
@@ -120,27 +120,43 @@
     return "assets/___rb2_connector_middle.svg";
   }
 
+  var PERM_MANAGE_DIRECTORY_INFO_SVG =
+    '<svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>';
+
+  function permFeatureLabelHtml(f, label, titleAttr, subsectionClass) {
+    var cls = "perm-tree__label";
+    if (subsectionClass) cls += " " + subsectionClass;
+    if (f.n === "Manage directory") {
+      return (
+        '<span class="' +
+        cls +
+        ' perm-tree__label--with-info"' +
+        titleAttr +
+        '><span class="perm-tree__label-text">' +
+        label +
+        "</span>" +
+        PERM_MANAGE_DIRECTORY_INFO_SVG +
+        "</span>"
+      );
+    }
+    return '<span class="' + cls + '"' + titleAttr + ">" + label + "</span>";
+  }
+
   function featureNameCellHtml(f) {
     var label = esc(f.n);
     var titleAttr = ' title="' + escAttr(f.n) + '"';
     if (f.subsection) {
       return (
         '<td class="perm-name-cell perm-name-cell--subsection perm-matrix__feature">' +
-        '<span class="perm-tree__label perm-tree__label--subsection"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></td>"
+        permFeatureLabelHtml(f, label, titleAttr, "perm-tree__label--subsection") +
+        "</td>"
       );
     }
     if (f.subitem) {
       return (
         '<td class="perm-name-cell perm-name-cell--subitem perm-matrix__feature">' +
-        '<span class="perm-tree__label"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></td>"
+        permFeatureLabelHtml(f, label, titleAttr, null) +
+        "</td>"
       );
     }
     if (f.treeChild) {
@@ -153,30 +169,22 @@
           escAttr(treeConnectorAssetSrc(pos)) +
           '" alt="" width="23" height="36" decoding="async" aria-hidden="true" />' +
           '<div class="perm-tree perm-tree--lined perm-tree--rb2-feature">' +
-          '<span class="perm-tree__label"' +
-          titleAttr +
-          ">" +
-          label +
-          "</span></div></td>"
+          permFeatureLabelHtml(f, label, titleAttr, null) +
+          "</div></td>"
         );
       }
       return (
         '<td class="perm-name-cell perm-name-cell--tree perm-matrix__feature">' +
         '<span class="perm-tree__guide perm-tree__guide--solo" aria-hidden="true"></span>' +
         '<div class="perm-tree perm-tree--lined">' +
-        '<span class="perm-tree__label"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></div></td>"
+        permFeatureLabelHtml(f, label, titleAttr, null) +
+        "</div></td>"
       );
     }
     return (
-      '<td class="perm-name-cell perm-matrix__feature"><span class="perm-tree__label"' +
-      titleAttr +
-      ">" +
-      label +
-      "</span></td>"
+      '<td class="perm-name-cell perm-matrix__feature">' +
+      permFeatureLabelHtml(f, label, titleAttr, null) +
+      "</td>"
     );
   }
 

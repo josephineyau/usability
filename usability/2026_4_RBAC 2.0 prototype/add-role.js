@@ -175,14 +175,18 @@
   var CMP_PREDEFINED = [
     { value: "super-admin", label: "Super Admin" },
     { value: "admin", label: "Admin" },
-    { value: "help-desk", label: "Help desk" },
+    { value: "responder", label: "Responder" },
+    { value: "help-desk", label: "Help Desk" },
+    { value: "analyst", label: "Security Analyst" },
     { value: "read-only", label: "Read-only" },
   ];
 
   var DD_OPTIONS = [
     { value: "super-admin", label: "Super Admin" },
     { value: "admin", label: "Admin" },
-    { value: "help-desk", label: "Help desk" },
+    { value: "responder", label: "Responder" },
+    { value: "help-desk", label: "Help Desk" },
+    { value: "analyst", label: "Security Analyst" },
     { value: "read-only", label: "Read-only" },
     { sep: true },
     { value: "custom", label: "Custom" },
@@ -228,6 +232,10 @@
     if (presetKey === "super-admin" || presetKey === "admin") return true;
     if (presetKey === "read-only") return !!f.ro;
     if (presetKey === "help-desk") return f.a === "yes";
+    if (presetKey === "responder") return f.b === "yes";
+    if (presetKey === "analyst") {
+      return (f.aa !== undefined ? f.aa : f.a) === "yes";
+    }
     return false;
   }
 
@@ -256,6 +264,14 @@
       return "help-desk";
     }
     if (presetMatchesGroup(g, cloneKey, "help-desk")) return "help-desk";
+    if (cloneKey === "responder" && presetMatchesGroup(g, cloneKey, "responder")) {
+      return "responder";
+    }
+    if (presetMatchesGroup(g, cloneKey, "responder")) return "responder";
+    if (cloneKey === "analyst" && presetMatchesGroup(g, cloneKey, "analyst")) {
+      return "analyst";
+    }
+    if (presetMatchesGroup(g, cloneKey, "analyst")) return "analyst";
     var any = false;
     for (var i = 0; i < g.features.length; i += 1) {
       var f2 = g.features[i];
@@ -357,25 +373,43 @@
     return "assets/___rb2_connector_middle.svg";
   }
 
+  var PERM_MANAGE_DIRECTORY_INFO_SVG =
+    '<svg class="info-icon-svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="currentColor"/><rect x="6.25" y="6" width="1.5" height="4.75" fill="#fff" rx="0.5"/><rect x="6.25" y="3.1" width="1.5" height="1.5" fill="#fff" rx="0.75"/></svg>';
+
+  function permFeatureLabelHtml(f, label, titleAttr, subsectionClass) {
+    var cls = "perm-tree__label";
+    if (subsectionClass) cls += " " + subsectionClass;
+    if (f.n === "Manage directory") {
+      return (
+        '<span class="' +
+        cls +
+        ' perm-tree__label--with-info"' +
+        titleAttr +
+        '><span class="perm-tree__label-text">' +
+        label +
+        "</span>" +
+        PERM_MANAGE_DIRECTORY_INFO_SVG +
+        "</span>"
+      );
+    }
+    return '<span class="' + cls + '"' + titleAttr + ">" + label + "</span>";
+  }
+
   function featureNameCellHtml(f) {
     var label = esc(f.n);
     var titleAttr = ' title="' + escAttr(f.n) + '"';
     if (f.subsection) {
       return (
-        '<td class="perm-name-cell perm-name-cell--subsection"><span class="perm-tree__label perm-tree__label--subsection"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></td>"
+        '<td class="perm-name-cell perm-name-cell--subsection">' +
+        permFeatureLabelHtml(f, label, titleAttr, "perm-tree__label--subsection") +
+        "</td>"
       );
     }
     if (f.subitem) {
       return (
-        '<td class="perm-name-cell perm-name-cell--subitem"><span class="perm-tree__label"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></td>"
+        '<td class="perm-name-cell perm-name-cell--subitem">' +
+        permFeatureLabelHtml(f, label, titleAttr, null) +
+        "</td>"
       );
     }
     if (f.treeChild) {
@@ -388,31 +422,19 @@
           escAttr(treeConnectorAssetSrc(pos)) +
           '" alt="" width="23" height="36" decoding="async" aria-hidden="true" />' +
           '<div class="perm-tree perm-tree--lined perm-tree--rb2-feature">' +
-          '<span class="perm-tree__label"' +
-          titleAttr +
-          ">" +
-          label +
-          "</span></div></td>"
+          permFeatureLabelHtml(f, label, titleAttr, null) +
+          "</div></td>"
         );
       }
       return (
         '<td class="perm-name-cell perm-name-cell--tree">' +
         '<span class="perm-tree__guide perm-tree__guide--solo" aria-hidden="true"></span>' +
         '<div class="perm-tree perm-tree--lined">' +
-        '<span class="perm-tree__label"' +
-        titleAttr +
-        ">" +
-        label +
-        "</span></div></td>"
+        permFeatureLabelHtml(f, label, titleAttr, null) +
+        "</div></td>"
       );
     }
-    return (
-      '<td class="perm-name-cell"><span class="perm-tree__label"' +
-      titleAttr +
-      ">" +
-      label +
-      "</span></td>"
-    );
+    return '<td class="perm-name-cell">' + permFeatureLabelHtml(f, label, titleAttr, null) + "</td>";
   }
 
   function groupPermSummaryForTbody(tbody, key) {
@@ -573,15 +595,95 @@
   }
 
   /**
-   * Alert notifications: "Take action on alerts" (general:9) forces "Read alerts" (general:10) on and locks it.
-   * Unchecking take-action (user action) clears read; with take-action off, read can still be checked alone.
+   * Alerts: "Manage alert notifications" (general:5) forces "View alerts" (general:6) on and locks it.
+   * Unchecking the former clears the latter; in Custom only, view can still be checked alone.
+   * When the parent category is not Custom (e.g. None), do not re-enable view — applyPermissionToGroup owns disabled.
    */
-  var ALERT_TAKE_ACTION_REF = "general:9";
-  var ALERT_READ_REF = "general:10";
+  var ALERT_TAKE_ACTION_REF = "general:5";
+  var ALERT_READ_REF = "general:6";
 
   function getPermCheckboxForRef(tbody, ref) {
     var tr = tbody.querySelector('tr[data-feature-ref="' + ref + '"]');
     return tr ? tr.querySelector(".perm-cb") : null;
+  }
+
+  function parsePermFeatureRef(ref) {
+    if (!ref) return null;
+    var i = ref.indexOf(":");
+    if (i < 0) return null;
+    return { gid: ref.slice(0, i), fi: parseInt(ref.slice(i + 1), 10) };
+  }
+
+  function getPermGroupById(gid) {
+    var gi;
+    for (gi = 0; gi < GROUPS.length; gi++) {
+      if (GROUPS[gi].id === gid) return GROUPS[gi];
+    }
+    return null;
+  }
+
+  /**
+   * Linked tree rows (treeChild): when the first row in a run is checked, rows below
+   * in the same run are checked and disabled; when it is unchecked, rows below are
+   * enabled (and cleared only on direct user toggle — see listener). If the first row
+   * is unchecked, the user may still check lower rows alone.
+   */
+  function syncLinkedTreeCheckboxes(tbody) {
+    if (!tbody) return;
+    var ddGate = tbody.querySelector("[data-perm-dd]");
+    if (!ddGate || (ddGate.dataset.currentValue || "none") !== "custom") return;
+    var gid = tbody.dataset.permGroup;
+    if (!gid) return;
+    var g = getPermGroupById(gid);
+    if (!g || !g.features) return;
+    var feats = g.features;
+    var fi;
+    for (fi = 0; fi < feats.length; fi++) {
+      var f = feats[fi];
+      if (!f.treeChild || f.treePos !== "first" || !f.treeRunLength || f.treeRunLength < 2) {
+        continue;
+      }
+      var firstRef = gid + ":" + fi;
+      var firstCb = getPermCheckboxForRef(tbody, firstRef);
+      if (!firstCb) continue;
+      var locked = firstCb.disabled;
+      var j;
+      if (firstCb.checked) {
+        for (j = 1; j < f.treeRunLength; j++) {
+          var c = getPermCheckboxForRef(tbody, gid + ":" + (fi + j));
+          if (!c) continue;
+          c.checked = true;
+          if (!locked) c.disabled = true;
+        }
+      } else {
+        for (j = 1; j < f.treeRunLength; j++) {
+          var c2 = getPermCheckboxForRef(tbody, gid + ":" + (fi + j));
+          if (!c2) continue;
+          if (!locked) c2.disabled = false;
+        }
+      }
+    }
+  }
+
+  function applyLinkedTreeFirstUserToggle(tbody, gid, fi, runLen, isChecked) {
+    var j;
+    if (isChecked) {
+      for (j = 1; j < runLen; j++) {
+        var cc = getPermCheckboxForRef(tbody, gid + ":" + (fi + j));
+        if (cc) {
+          cc.checked = true;
+          cc.disabled = true;
+        }
+      }
+    } else {
+      for (j = 1; j < runLen; j++) {
+        var cc = getPermCheckboxForRef(tbody, gid + ":" + (fi + j));
+        if (cc) {
+          cc.checked = false;
+          cc.disabled = false;
+        }
+      }
+    }
   }
 
   function syncAlertLinkedCheckboxes(tbody) {
@@ -593,7 +695,11 @@
       readCb.checked = true;
       readCb.disabled = true;
     } else {
-      readCb.disabled = false;
+      var ddGate = tbody.querySelector("[data-perm-dd]");
+      var mode = ddGate ? ddGate.dataset.currentValue || "none" : "none";
+      if (mode === "custom") {
+        readCb.disabled = false;
+      }
     }
   }
 
@@ -605,18 +711,41 @@
       if (!t || !t.classList || !t.classList.contains("perm-cb")) return;
       var tr = t.closest("tr");
       var ref = tr && tr.getAttribute("data-feature-ref");
-      if (ref !== ALERT_TAKE_ACTION_REF && ref !== ALERT_READ_REF) return;
+      if (!ref) return;
       var tbody = tr.closest("tbody");
-      if (!tbody || tbody.dataset.permGroup !== "general") return;
-      if (ref === ALERT_TAKE_ACTION_REF && !t.checked) {
-        var readCb = getPermCheckboxForRef(tbody, ALERT_READ_REF);
-        if (readCb) {
-          readCb.checked = false;
-          readCb.disabled = false;
+      if (!tbody) return;
+
+      var parsed = parsePermFeatureRef(ref);
+      if (parsed && !isNaN(parsed.fi) && !t.disabled) {
+        var g = getPermGroupById(parsed.gid);
+        if (g && g.features[parsed.fi]) {
+          var feat = g.features[parsed.fi];
+          if (feat.treeChild && feat.treePos === "first" && feat.treeRunLength >= 2) {
+            applyLinkedTreeFirstUserToggle(
+              tbody,
+              parsed.gid,
+              parsed.fi,
+              feat.treeRunLength,
+              t.checked
+            );
+          }
         }
-        return;
       }
-      syncAlertLinkedCheckboxes(tbody);
+
+      if (
+        (ref === ALERT_TAKE_ACTION_REF || ref === ALERT_READ_REF) &&
+        tbody.dataset.permGroup === "general"
+      ) {
+        if (ref === ALERT_TAKE_ACTION_REF && !t.checked) {
+          var readCb = getPermCheckboxForRef(tbody, ALERT_READ_REF);
+          if (readCb) {
+            readCb.checked = false;
+            readCb.disabled = false;
+          }
+        } else {
+          syncAlertLinkedCheckboxes(tbody);
+        }
+      }
     });
   }
 
@@ -627,31 +756,22 @@
         cb.checked = true;
         cb.disabled = true;
       });
-      return;
-    }
-    if (value === "none") {
+    } else if (value === "none") {
       cbs.forEach(function (cb) {
         cb.checked = false;
         cb.disabled = true;
       });
-      return;
-    }
-    if (value === "custom") {
+    } else if (value === "custom") {
       cbs.forEach(function (cb) {
         cb.checked = false;
         cb.disabled = false;
       });
-      syncAlertLinkedCheckboxes(tbody);
-      return;
-    }
-    if (value === "read-only") {
+    } else if (value === "read-only") {
       cbs.forEach(function (cb) {
         cb.disabled = true;
         cb.checked = cb.hasAttribute("data-readonly");
       });
-      return;
-    }
-    if (value === "help-desk") {
+    } else if (value === "help-desk") {
       cbs.forEach(function (cb) {
         var tr = cb.closest("tr");
         var f = featureByRef(tr && tr.getAttribute("data-feature-ref"));
@@ -662,7 +782,31 @@
         }
         cb.checked = f.a === "yes";
       });
+    } else if (value === "responder") {
+      cbs.forEach(function (cb) {
+        var tr = cb.closest("tr");
+        var f = featureByRef(tr && tr.getAttribute("data-feature-ref"));
+        cb.disabled = true;
+        if (!f) {
+          cb.checked = false;
+          return;
+        }
+        cb.checked = f.b === "yes";
+      });
+    } else if (value === "analyst") {
+      cbs.forEach(function (cb) {
+        var tr = cb.closest("tr");
+        var f = featureByRef(tr && tr.getAttribute("data-feature-ref"));
+        cb.disabled = true;
+        if (!f) {
+          cb.checked = false;
+          return;
+        }
+        cb.checked = (f.aa !== undefined ? f.aa : f.a) === "yes";
+      });
     }
+    syncLinkedTreeCheckboxes(tbody);
+    syncAlertLinkedCheckboxes(tbody);
   }
 
   function updateTrigger(dd, value, label, isNone) {
@@ -1225,6 +1369,7 @@
             cb.checked = !!gstate.cbs[ref];
           }
         });
+        syncLinkedTreeCheckboxes(tbody);
         syncAlertLinkedCheckboxes(tbody);
       }
     });
@@ -1334,12 +1479,10 @@
     var searchAvail = document.getElementById("assign-available-search");
     var searchSel = document.getElementById("assign-selected-search");
     var availablePager = document.getElementById("assign-available-pager");
+    if (availablePager) availablePager.hidden = true;
 
     if (!permPanel || !admPanel || !permTab || !admTab) return;
     if (!availableTbody || !selectedTbody) return;
-
-    /** Hide pager when all rows fit on one page (prototype; Available list only). */
-    var ASSIGN_PAGE_SIZE = 10;
 
     var orgTotal =
       typeof window.sophosProtoOrgAdminTotal === "number"
@@ -1372,12 +1515,6 @@
       var n = selectedTbody.querySelectorAll("tr").length;
       if (countSelectedEl) countSelectedEl.textContent = String(n);
       if (badge) badge.textContent = String(n);
-    }
-
-    function updateAvailablePagerVisibility() {
-      if (!availablePager) return;
-      var n = availableTbody.querySelectorAll("tr[data-admin-name]").length;
-      availablePager.hidden = n <= ASSIGN_PAGE_SIZE;
     }
 
     function createAssignRow(entry) {
@@ -1450,7 +1587,6 @@
 
     updateAvailableCountLabel();
     updateSelectedCounts();
-    updateAvailablePagerVisibility();
 
     admPanel.addEventListener("change", function (e) {
       var t = e.target;
@@ -1479,7 +1615,6 @@
       sortTbodyByName(toTbody);
       updateAvailableCountLabel();
       updateSelectedCounts();
-      updateAvailablePagerVisibility();
       if (searchAvail) applySearch(availableTbody, searchAvail.value);
       if (searchSel) applySearch(selectedTbody, searchSel.value);
     }
