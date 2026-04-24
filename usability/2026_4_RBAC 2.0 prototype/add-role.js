@@ -184,9 +184,7 @@
   var DD_OPTIONS = [
     { value: "super-admin", label: "Super Admin" },
     { value: "admin", label: "Admin" },
-    { value: "responder", label: "Responder" },
     { value: "help-desk", label: "Help Desk" },
-    { value: "analyst", label: "Security Analyst" },
     { value: "read-only", label: "Read-only" },
     { sep: true },
     { value: "custom", label: "Custom" },
@@ -1344,6 +1342,9 @@
       var o = DD_OPTIONS[i];
       if (o.sep) continue;
       if (o.value === v) return o.label;
+    }
+    for (i = 0; i < CMP_PREDEFINED.length; i += 1) {
+      if (CMP_PREDEFINED[i].value === v) return CMP_PREDEFINED[i].label;
     }
     return "None";
   }

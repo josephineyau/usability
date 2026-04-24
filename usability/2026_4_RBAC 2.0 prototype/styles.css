@@ -12,6 +12,8 @@
   --text-muted: #5f6368;
   --link: #005bc8;
   --table-border: #dadce0;
+  /* Linked-feature bracket / tree guide (slightly darker than table border for legibility) */
+  --perm-tree-bracket: #b0b5bd;
   --table-header-bg: #f8f9fa;
   --table-header-info: #a3a6ab;
   --tab-inactive-bg: #f0f2f4;
@@ -1847,8 +1849,8 @@ body[data-role-page="predefined-edit"] .perm-table tbody td.perm-compare {
   flex: none;
   min-height: 0;
   background:
-    linear-gradient(#dadce0, #dadce0) no-repeat 11px 0 / 1px calc(50% + 0.5px),
-    linear-gradient(#dadce0, #dadce0) no-repeat 11px calc(50% - 0.5px) / calc(100% - 11px) 1px;
+    linear-gradient(var(--perm-tree-bracket), var(--perm-tree-bracket)) no-repeat 11px 0 / 1px calc(50% + 0.5px),
+    linear-gradient(var(--perm-tree-bracket), var(--perm-tree-bracket)) no-repeat 11px calc(50% - 0.5px) / calc(100% - 11px) 1px;
   pointer-events: none;
   z-index: 0;
 }
